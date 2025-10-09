@@ -1,0 +1,29 @@
+{
+  "name": "@unsent/sdk",
+  "version": "0.25.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsup index.ts --format esm,cjs --dts",
+    "publish-sdk": "pnpm run build && pnpm publish --no-git-checks --access public",
+    "openapi-typegen": "openapi-typescript ../../apps/docs/api-reference/openapi.json -o types/schema.d.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.1.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "openapi-typescript": "^7.6.1",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@react-email/render": "^1.0.6",
+    "react": "^19.1.0"
+  }
+}
