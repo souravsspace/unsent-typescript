@@ -4,7 +4,7 @@ import { Emails } from "./email"
 
 const defaultBaseUrl = "https://app.unsent.dev"
 // eslint-disable-next-line turbo/no-undeclared-env-vars
-const baseUrl = `${process?.env?.unsent_BASE_URL ?? process?.env?.UNSEND_BASE_URL ?? defaultBaseUrl}/api/v1`
+const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/api/v1`
 
 function isunsentErrorResponse(error: { error: ErrorResponse }) {
    return error.error.code !== undefined
@@ -24,7 +24,7 @@ export class unsent {
    ) {
       if (!key) {
          if (typeof process !== "undefined" && process.env) {
-            this.key = process.env.unsent_API_KEY ?? process.env.UNSEND_API_KEY
+            this.key = process.env.unsent_API_KEY ?? process.env.UNSENT_API_KEY
          }
 
          if (!this.key) {
