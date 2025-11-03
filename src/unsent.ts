@@ -2,9 +2,9 @@ import type { ErrorResponse } from "../types";
 import { Contacts } from "./contact";
 import { Emails } from "./email";
 import { Domains } from "./domain";
+import { Campaigns } from "./campaign";
 
 const defaultBaseUrl = "https://app.unsent.dev";
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/api/v1`;
 
 function isunsentErrorResponse(error: { error: ErrorResponse }) {
@@ -14,10 +14,11 @@ function isunsentErrorResponse(error: { error: ErrorResponse }) {
 export class unsent {
   private readonly headers: Headers;
 
-  // readonly domains = new Domains(this);
-  readonly emails = new Emails(this);
   readonly domains = new Domains(this);
+  readonly emails = new Emails(this);
   readonly contacts = new Contacts(this);
+  readonly campaigns = new Campaigns(this);
+
   url = baseUrl;
 
   constructor(
