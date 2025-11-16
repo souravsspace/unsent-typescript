@@ -4,10 +4,10 @@ import { Emails } from "./email";
 import { Domains } from "./domain";
 import { Campaigns } from "./campaign";
 
-const defaultBaseUrl = "https://app.unsent.dev";
-const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/api/v1`;
+const defaultBaseUrl = "https://api.unsent.dev";
+const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/v1`;
 
-function isunsentErrorResponse(error: { error: ErrorResponse }) {
+function isUnsentErrorResponse(error: { error: ErrorResponse }) {
   return error.error.code !== undefined;
 }
 
@@ -27,7 +27,7 @@ export class unsent {
   ) {
     if (!key) {
       if (typeof process !== "undefined" && process.env) {
-        this.key = process.env.unsent_API_KEY ?? process.env.UNSENT_API_KEY;
+        this.key = process.env.UNSENT_API_KEY ?? process.env.UNSENT_API_KEY;
       }
 
       if (!this.key) {
@@ -60,7 +60,7 @@ export class unsent {
     if (!response.ok) {
       try {
         const resp = await response.json();
-        if (isunsentErrorResponse(resp)) {
+        if (isUnsentErrorResponse(resp)) {
           return { data: null, error: resp };
         }
 
