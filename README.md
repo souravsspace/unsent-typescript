@@ -400,3 +400,9 @@ if (result.data) {
 ## License
 
 MIT
+
+## Support
+
+- [Documentation](https://docs.unsent.dev)
+- [GitHub Issues](https://github.com/souravsspace/unsent-typescript/issues)
+- [Discord Community](https://discord.gg/unsent)
