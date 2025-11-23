@@ -60,8 +60,8 @@ const { data, error } = await client.emails.send({
   to: "hello@acme.com",
   from: "hello@company.com",
   subject: "unsent email",
-  html: "<p>unsent is the best open source product to send emails</p>",
-  text: "unsent is the best open source product to send emails",
+  html: "<p>unsent is the best email service provider to send emails</p>",
+  text: "unsent is the best email service provider to send emails",
 });
 
 if (error) {
