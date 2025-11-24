@@ -143,6 +143,60 @@ if (error) {
 }
 ```
 
+#### Idempotency Keys
+
+Safely retry email sends with an idempotency key to prevent duplicate sends. This is especially useful for critical emails like signup confirmations or password resets.
+
+```typescript
+// Safely retry sends with an idempotency key
+const { data, error } = await client.emails.send(
+  {
+    to: "hello@acme.com",
+    from: "hello@company.com",
+    subject: "unsent email",
+    html: "<p>unsent is the best open source product to send emails</p>",
+  },
+  { idempotencyKey: "signup-123" },
+);
+
+if (error) {
+  console.error("Error:", error);
+} else {
+  console.log("Email sent! ID:", data.id);
+}
+```
+
+Idempotency keys also work for batch sends:
+
+```typescript
+// Works for bulk sends too
+const { data, error } = await client.emails.batch(
+  [
+    {
+      to: "a@example.com",
+      from: "hello@company.com",
+      subject: "Welcome",
+      html: "<p>Hello A</p>",
+    },
+    {
+      to: "b@example.com",
+      from: "hello@company.com",
+      subject: "Welcome",
+      html: "<p>Hello B</p>",
+    },
+  ],
+  { idempotencyKey: "bulk-welcome-1" },
+);
+
+if (error) {
+  console.error("Error:", error);
+} else {
+  console.log(`Sent ${data.length} emails`);
+}
+```
+
+> **Note:** Reusing the same idempotency key with a different payload will return HTTP 409 (Conflict). This ensures that retries are safe and prevents accidental duplicate sends with modified content.
+
 ### Managing Emails
 
 #### Get Email Details

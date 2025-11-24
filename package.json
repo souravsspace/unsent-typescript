@@ -1,6 +1,6 @@
 {
   "name": "@unsent/sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript SDK for the Unsent API - Send transactional emails with ease",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

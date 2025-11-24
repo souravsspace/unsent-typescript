@@ -81,10 +81,19 @@ export class unsent {
     return { data, error: null };
   }
 
-  async post<T>(path: string, body: unknown) {
+  async post<T>(path: string, body: unknown, options?: { headers?: Record<string, string> }) {
+    const headers = new Headers(this.headers);
+    
+    // Merge custom headers if provided
+    if (options?.headers) {
+      Object.entries(options.headers).forEach(([key, value]) => {
+        headers.set(key, value);
+      });
+    }
+
     const requestOptions = {
       method: "POST",
-      headers: this.headers,
+      headers,
       body: JSON.stringify(body),
     };
 

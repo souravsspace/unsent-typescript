@@ -60,6 +60,13 @@ type BatchEmailResponseSuccess =
   paths["/v1/emails/batch"]["post"]["responses"]["200"]["content"]["application/json"];
 
 /**
+ * Options for email requests.
+ */
+type EmailRequestOptions = {
+  idempotencyKey?: string;
+};
+
+/**
  * Response structure for the batch method.
  */
 type BatchEmailResponse = {
@@ -67,16 +74,20 @@ type BatchEmailResponse = {
   error: ErrorResponse | null;
 };
 
+
 export class Emails {
   constructor(private readonly unsent: unsent) {
     this.unsent = unsent;
   }
 
-  async send(payload: SendEmailPayload) {
-    return this.create(payload);
+  async send(payload: SendEmailPayload, options?: EmailRequestOptions) {
+    return this.create(payload, options);
   }
 
-  async create(payload: SendEmailPayload): Promise<CreateEmailResponse> {
+  async create(
+    payload: SendEmailPayload,
+    options?: EmailRequestOptions,
+  ): Promise<CreateEmailResponse> {
     if (payload.react) {
       payload.html = await render(payload.react as React.ReactElement);
       delete payload.react;
@@ -84,7 +95,10 @@ export class Emails {
 
     const data = await this.unsent.post<CreateEmailResponseSuccess>(
       "/emails",
-      payload
+      payload,
+      options?.idempotencyKey
+        ? { headers: { "Idempotency-Key": options.idempotencyKey } }
+        : undefined,
     );
 
     return data;
@@ -96,11 +110,17 @@ export class Emails {
    * @param payload An array of email payloads. Max 100 emails.
    * @returns A promise that resolves to the list of created email IDs or an error.
    */
-  async batch(payload: BatchEmailPayload): Promise<BatchEmailResponse> {
+    async batch(
+    payload: BatchEmailPayload,
+    options?: EmailRequestOptions,
+  ): Promise<BatchEmailResponse> {
     // Note: React element rendering is not supported in batch mode.
     const response = await this.unsent.post<BatchEmailResponseSuccess>(
       "/emails/batch",
-      payload
+      payload,
+      options?.idempotencyKey
+        ? { headers: { "Idempotency-Key": options.idempotencyKey } }
+        : undefined,
     );
     return {
       data: response.data ? response.data.data : null,
