@@ -38,7 +38,7 @@ bun add @unsent/sdk
 ```typescript
 import { unsent } from "@unsent/sdk";
 
-const client = new unsent("us_12345");
+const client = new unsent("un_xxxx");
 ```
 
 ### Environment Variables
@@ -303,7 +303,7 @@ Create and manage email campaigns:
 ```typescript
 import { unsent } from "@unsent/sdk";
 
-const client = new unsent("us_12345");
+const client = new unsent("un_xxxx");
 
 // Create a campaign
 const campaign = await client.campaigns.create({
@@ -390,7 +390,7 @@ The SDK is fully typed with TypeScript:
 ```typescript
 import { unsent } from "@unsent/sdk";
 
-const client = new unsent("us_12345");
+const client = new unsent("un_xxxx");
 
 // Full type inference and autocomplete
 const result = await client.emails.send({
