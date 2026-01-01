@@ -38,7 +38,7 @@ export class unsent {
     }
 
     if (url) {
-      this.url = `${url}/api/v1`;
+      this.url = `${url}/v1`;
     }
 
     this.headers = new Headers({
@@ -51,7 +51,8 @@ export class unsent {
     path: string,
     options = {},
   ): Promise<{ data: T | null; error: ErrorResponse | null }> {
-    const response = await fetch(`${this.url}${path}`, options);
+    const fullUrl = `${this.url}${path}`;
+    const response = await fetch(fullUrl, options);
     const defaultError = {
       code: "INTERNAL_SERVER_ERROR",
       message: response.statusText,
@@ -77,8 +78,22 @@ export class unsent {
       }
     }
 
-    const data = await response.json();
-    return { data, error: null };
+    try {
+      const data = await response.json();
+      return { data, error: null };
+    } catch (err) {
+      // Handle empty response or invalid JSON
+      if (err instanceof Error && err.message.includes("JSON")) {
+        return {
+          data: null,
+          error: {
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Invalid JSON response from server",
+          },
+        };
+      }
+      throw err;
+    }
   }
 
   async post<T>(path: string, body: unknown, options?: { headers?: Record<string, string> }) {
