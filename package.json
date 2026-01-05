@@ -1,6 +1,6 @@
 {
   "name": "@unsent/sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript SDK for the Unsent API - Send transactional emails with ease",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rm -rf dist && tsup index.ts --format esm,cjs --dts",
     "publish-sdk": "pnpm run build && pnpm publish --no-git-checks --access public",
-    "openapi-typegen": "openapi-typescript ../../apps/docs/api-reference/openapi.json -o types/schema.d.ts"
+    "openapi:generate": "openapi-typescript ../../apps/docs/public/api-reference.json -o types/schema.d.ts"
   },
   "repository": {
     "type": "git",

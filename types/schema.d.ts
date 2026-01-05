@@ -4,6 +4,296 @@
  */
 
 export interface paths {
+    "/v1/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health Check
+         * @description Check if the API is running correctly
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description API is healthy */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            status: string;
+                            uptime: number;
+                            timestamp: number;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/api-keys": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List API Keys */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": unknown[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        /**
+                         * @default FULL
+                         * @enum {string}
+                         */
+                        permission?: "FULL" | "SENDING";
+                    };
+                };
+            };
+            responses: {
+                /** @description Create API Key */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/api-keys/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Delete API Key */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get Settings */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get Analytics */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/analytics/time-series": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    days?: string;
+                    domain?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get Email Time Series */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/analytics/reputation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    domain?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get Reputation Metrics */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/domains": {
         parameters: {
             query?: never;
@@ -26,76 +316,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            /**
-                             * @description The ID of the domain
-                             * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
-                             */
-                            id: string;
-                            /**
-                             * @description The name of the domain
-                             * @example example.com
-                             */
-                            name: string;
-                            /**
-                             * @description The ID of the team
-                             * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
-                             */
-                            teamId: string;
-                            /** @enum {string} */
-                            status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                            /** @default us-east-1 */
-                            region: string;
-                            /** @default false */
-                            clickTracking: boolean;
-                            /** @default false */
-                            openTracking: boolean;
-                            publicKey: string;
-                            dkimStatus?: string | null;
-                            spfDetails?: string | null;
-                            createdAt: string;
-                            updatedAt: string;
-                            /** @default false */
-                            dmarcAdded: boolean;
-                            /** @default false */
-                            isVerifying: boolean;
-                            errorMessage?: string | null;
-                            subdomain?: string | null;
-                            verificationError?: string | null;
-                            lastCheckedTime?: string | null;
-                            dnsRecords: {
-                                /**
-                                 * @description DNS record type
-                                 * @example TXT
-                                 * @enum {string}
-                                 */
-                                type: "MX" | "TXT";
-                                /**
-                                 * @description DNS record name
-                                 * @example mail
-                                 */
-                                name: string;
-                                /**
-                                 * @description DNS record value
-                                 * @example v=spf1 include:amazonses.com ~all
-                                 */
-                                value: string;
-                                /**
-                                 * @description DNS record TTL
-                                 * @example Auto
-                                 */
-                                ttl: string;
-                                /**
-                                 * @description DNS record priority
-                                 * @example 10
-                                 */
-                                priority?: string | null;
-                                /** @enum {string} */
-                                status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                                /** @description Whether the record is recommended */
-                                recommended?: boolean;
-                            }[];
-                        }[];
+                        "application/json": unknown[];
                     };
                 };
             };
@@ -139,59 +360,56 @@ export interface paths {
                              * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
                              */
                             teamId: string;
-                            /** @enum {string} */
-                            status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                            /** @default us-east-1 */
+                            /** @description The status of the domain */
+                            status: string;
+                            /**
+                             * @description The region of the domain
+                             * @default us-east-1
+                             * @example us-east-1
+                             */
                             region: string;
-                            /** @default false */
+                            /**
+                             * @description Whether click tracking is enabled
+                             * @default false
+                             * @example false
+                             */
                             clickTracking: boolean;
-                            /** @default false */
+                            /**
+                             * @description Whether open tracking is enabled
+                             * @default false
+                             * @example false
+                             */
                             openTracking: boolean;
+                            /** @description The public key of the domain */
                             publicKey: string;
+                            /** @description The DKIM status of the domain */
                             dkimStatus?: string | null;
+                            /** @description The SPF details of the domain */
                             spfDetails?: string | null;
+                            /** @description The creation date of the domain */
                             createdAt: string;
+                            /** @description The last update date of the domain */
                             updatedAt: string;
-                            /** @default false */
+                            /**
+                             * @description Whether DMARC is added
+                             * @default false
+                             */
                             dmarcAdded: boolean;
-                            /** @default false */
+                            /**
+                             * @description Whether the domain is verifying
+                             * @default false
+                             */
                             isVerifying: boolean;
+                            /** @description The error message of the domain */
                             errorMessage?: string | null;
+                            /** @description The subdomain of the domain */
                             subdomain?: string | null;
+                            /** @description The verification error of the domain */
                             verificationError?: string | null;
+                            /** @description The last checked time of the domain */
                             lastCheckedTime?: string | null;
-                            dnsRecords: {
-                                /**
-                                 * @description DNS record type
-                                 * @example TXT
-                                 * @enum {string}
-                                 */
-                                type: "MX" | "TXT";
-                                /**
-                                 * @description DNS record name
-                                 * @example mail
-                                 */
-                                name: string;
-                                /**
-                                 * @description DNS record value
-                                 * @example v=spf1 include:amazonses.com ~all
-                                 */
-                                value: string;
-                                /**
-                                 * @description DNS record TTL
-                                 * @example Auto
-                                 */
-                                ttl: string;
-                                /**
-                                 * @description DNS record priority
-                                 * @example 10
-                                 */
-                                priority?: string | null;
-                                /** @enum {string} */
-                                status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                                /** @description Whether the record is recommended */
-                                recommended?: boolean;
-                            }[];
+                            /** @description The DNS records of the domain */
+                            dnsRecords: unknown[];
                         };
                     };
                 };
@@ -228,9 +446,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            message: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
                 /** @description Forbidden - API key doesn't have access to this domain */
@@ -239,9 +455,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            error: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
                 /** @description Domain not found */
@@ -250,9 +464,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            error: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -304,59 +516,56 @@ export interface paths {
                              * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
                              */
                             teamId: string;
-                            /** @enum {string} */
-                            status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                            /** @default us-east-1 */
+                            /** @description The status of the domain */
+                            status: string;
+                            /**
+                             * @description The region of the domain
+                             * @default us-east-1
+                             * @example us-east-1
+                             */
                             region: string;
-                            /** @default false */
+                            /**
+                             * @description Whether click tracking is enabled
+                             * @default false
+                             * @example false
+                             */
                             clickTracking: boolean;
-                            /** @default false */
+                            /**
+                             * @description Whether open tracking is enabled
+                             * @default false
+                             * @example false
+                             */
                             openTracking: boolean;
+                            /** @description The public key of the domain */
                             publicKey: string;
+                            /** @description The DKIM status of the domain */
                             dkimStatus?: string | null;
+                            /** @description The SPF details of the domain */
                             spfDetails?: string | null;
+                            /** @description The creation date of the domain */
                             createdAt: string;
+                            /** @description The last update date of the domain */
                             updatedAt: string;
-                            /** @default false */
+                            /**
+                             * @description Whether DMARC is added
+                             * @default false
+                             */
                             dmarcAdded: boolean;
-                            /** @default false */
+                            /**
+                             * @description Whether the domain is verifying
+                             * @default false
+                             */
                             isVerifying: boolean;
+                            /** @description The error message of the domain */
                             errorMessage?: string | null;
+                            /** @description The subdomain of the domain */
                             subdomain?: string | null;
+                            /** @description The verification error of the domain */
                             verificationError?: string | null;
+                            /** @description The last checked time of the domain */
                             lastCheckedTime?: string | null;
-                            dnsRecords: {
-                                /**
-                                 * @description DNS record type
-                                 * @example TXT
-                                 * @enum {string}
-                                 */
-                                type: "MX" | "TXT";
-                                /**
-                                 * @description DNS record name
-                                 * @example mail
-                                 */
-                                name: string;
-                                /**
-                                 * @description DNS record value
-                                 * @example v=spf1 include:amazonses.com ~all
-                                 */
-                                value: string;
-                                /**
-                                 * @description DNS record TTL
-                                 * @example Auto
-                                 */
-                                ttl: string;
-                                /**
-                                 * @description DNS record priority
-                                 * @example 10
-                                 */
-                                priority?: string | null;
-                                /** @enum {string} */
-                                status: "NOT_STARTED" | "PENDING" | "SUCCESS" | "FAILED" | "TEMPORARY_FAILURE";
-                                /** @description Whether the record is recommended */
-                                recommended?: boolean;
-                            }[];
+                            /** @description The DNS records of the domain */
+                            dnsRecords: unknown[];
                         };
                     };
                 };
@@ -381,10 +590,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            success: boolean;
-                            message: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
                 /** @description Forbidden - API key doesn't have access */
@@ -400,9 +606,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            error: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -436,27 +640,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id: string;
-                            teamId: string;
-                            to: string | string[];
-                            replyTo?: string | string[];
-                            cc?: string | string[];
-                            bcc?: string | string[];
-                            from: string;
-                            subject: string;
-                            html: string | null;
-                            text: string | null;
-                            createdAt: string;
-                            updatedAt: string;
-                            emailEvents: {
-                                emailId: string;
-                                /** @enum {string} */
-                                status: "SCHEDULED" | "QUEUED" | "SENT" | "DELIVERY_DELAYED" | "BOUNCED" | "REJECTED" | "RENDERING_FAILURE" | "DELIVERED" | "OPENED" | "CLICKED" | "COMPLAINED" | "FAILED" | "CANCELLED" | "SUPPRESSED";
-                                createdAt: string;
-                                data?: unknown;
-                            }[];
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -477,10 +661,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        /** Format: date-time */
-                        scheduledAt: string;
-                    };
+                    "application/json": Record<string, never>;
                 };
             };
             responses: {
@@ -490,9 +671,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            emailId?: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -527,36 +706,35 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                id: string;
-                                to: string | string[];
-                                replyTo?: string | string[] | unknown;
-                                cc?: string | string[] | unknown;
-                                bcc?: string | string[] | unknown;
-                                from: string;
-                                subject: string;
-                                html: string | null;
-                                text: string | null;
-                                createdAt: string;
-                                updatedAt: string;
-                                /** @enum {string|null} */
-                                latestStatus: "SCHEDULED" | "QUEUED" | "SENT" | "DELIVERY_DELAYED" | "BOUNCED" | "REJECTED" | "RENDERING_FAILURE" | "DELIVERED" | "OPENED" | "CLICKED" | "COMPLAINED" | "FAILED" | "CANCELLED" | "SUPPRESSED" | null;
-                                /** Format: date-time */
-                                scheduledAt: string | null;
-                                domainId: string | null;
-                            }[];
-                            count: number;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
         };
         put?: never;
+        /** @description Send an email.
+         *
+         *       You can send an email by providing the `subject`, `html`, and `text` directly, or by using a `templateId`.
+         *
+         *       **Using Templates:**
+         *       - If `templateId` is provided, `subject`, `html`, and `text` are optional. The template's values will be used.
+         *       - You can override the template's subject or body by providing them in the request.
+         *       - Use the `variables` object to replace placeholders in the template (e.g. `{{name}}`).
+         *       - The `templateId` must belong to your team.
+         *        */
         post: {
             parameters: {
                 query?: never;
-                header?: never;
+                header?: {
+                    /** @description Pass the optional Idempotency-Key header to make the request safe to retry. The key can be up to 256 characters. The server stores the canonical request body and behaves as follows:
+                     *
+                     *     - Same key + same request body → returns the original emailId with 200 OK without re-sending.
+                     *     - Same key + different request body → returns 409 Conflict with code: NOT_UNIQUE so you can detect the mismatch.
+                     *     - Same key while another request is still being processed → returns 409 Conflict; retry after a short delay or once the first request completes.
+                     *
+                     *     Entries expire after 24 hours. Use a unique key per logical send (for example, an order or signup ID). */
+                    "Idempotency-Key"?: string;
+                };
                 path?: never;
                 cookie?: never;
             };
@@ -581,10 +759,7 @@ export interface paths {
                         headers?: {
                             [key: string]: string;
                         };
-                        attachments?: {
-                            filename: string;
-                            content: string;
-                        }[];
+                        attachments?: unknown[];
                         /** Format: date-time */
                         scheduledAt?: string;
                         inReplyToId?: string | null;
@@ -598,13 +773,125 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            emailId?: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/emails/bounces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List bounced emails */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/emails/complaints": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List email complaints */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/emails/unsubscribes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List unsubscribed emails (contacts) */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -629,33 +916,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        to: string | string[];
-                        from: string;
-                        /** @description Optional when templateId is provided */
-                        subject?: string;
-                        /** @description ID of a template from the dashboard */
-                        templateId?: string;
-                        variables?: {
-                            [key: string]: string;
-                        };
-                        replyTo?: string | string[];
-                        cc?: string | string[];
-                        bcc?: string | string[];
-                        text?: string | null;
-                        html?: string | null;
-                        /** @description Custom headers to included with the emails */
-                        headers?: {
-                            [key: string]: string;
-                        };
-                        attachments?: {
-                            filename: string;
-                            content: string;
-                        }[];
-                        /** Format: date-time */
-                        scheduledAt?: string;
-                        inReplyToId?: string | null;
-                    }[];
+                    "application/json": unknown[];
                 };
             };
             responses: {
@@ -665,11 +926,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                emailId: string;
-                            }[];
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -706,9 +963,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            emailId?: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -748,20 +1003,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id: string;
-                            firstName?: string | null;
-                            lastName?: string | null;
-                            email: string;
-                            /** @default true */
-                            subscribed: boolean;
-                            properties: {
-                                [key: string]: string;
-                            };
-                            contactBookId: string;
-                            createdAt: string;
-                            updatedAt: string;
-                        }[];
+                        "application/json": unknown[];
                     };
                 };
             };
@@ -834,20 +1076,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id: string;
-                            firstName?: string | null;
-                            lastName?: string | null;
-                            email: string;
-                            /** @default true */
-                            subscribed: boolean;
-                            properties: {
-                                [key: string]: string;
-                            };
-                            contactBookId: string;
-                            createdAt: string;
-                            updatedAt: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -863,15 +1092,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        email: string;
-                        firstName?: string;
-                        lastName?: string;
-                        properties?: {
-                            [key: string]: string;
-                        };
-                        subscribed?: boolean;
-                    };
+                    "application/json": Record<string, never>;
                 };
             };
             responses: {
@@ -881,9 +1102,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            contactId: string;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -907,9 +1126,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            success: boolean;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -961,7 +1178,26 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List campaigns */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": unknown[];
+                    };
+                };
+            };
+        };
         put?: never;
         post: {
             parameters: {
@@ -991,7 +1227,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Create a campaign */
+                /** @description Create a campaign. Note: The campaign content MUST include an unsubscribe link placeholder `{{unsent_unsubscribe_url}}`. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -1020,9 +1256,9 @@ export interface paths {
                             bounced: number;
                             hardBounced: number;
                             complained: number;
-                            replyTo: string[];
-                            cc: string[];
-                            bcc: string[];
+                            replyTo: unknown[];
+                            cc: unknown[];
+                            bcc: unknown[];
                             /** Format: date-time */
                             createdAt: string;
                             /** Format: date-time */
@@ -1085,9 +1321,9 @@ export interface paths {
                             bounced: number;
                             hardBounced: number;
                             complained: number;
-                            replyTo: string[];
-                            cc: string[];
-                            bcc: string[];
+                            replyTo: unknown[];
+                            cc: unknown[];
+                            bcc: unknown[];
                             /** Format: date-time */
                             createdAt: string;
                             /** Format: date-time */
@@ -1139,9 +1375,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            success: boolean;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -1178,9 +1412,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            success: boolean;
-                        };
+                        "application/json": Record<string, never>;
                     };
                 };
             };
@@ -1217,6 +1449,150 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/contactBooks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Retrieve all contact books */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": unknown[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        emoji?: string;
+                        properties?: {
+                            [key: string]: string;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Create a contact book */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                            name: string;
+                            emoji: string;
+                            properties?: unknown;
+                            teamId: string;
+                            createdAt: string;
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/contactBooks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get contact book details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                            name: string;
+                            emoji: string;
+                            properties?: unknown;
+                            teamId: string;
+                            createdAt: string;
+                            updatedAt: string;
+                            details: {
+                                totalContacts: number;
+                                unsubscribedContacts: number;
+                                campaigns: unknown[];
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Delete contact book */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
                         "application/json": {
                             success: boolean;
                         };
@@ -1224,7 +1600,321 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        name?: string;
+                        emoji?: string;
+                        properties?: {
+                            [key: string]: string;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Update contact book */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                            name: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List templates */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": unknown[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        subject: string;
+                        html?: string;
+                        content?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Create template */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/templates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Get template */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                            name: string;
+                            subject: string;
+                            html?: string | null;
+                            content?: string | null;
+                            teamId: string;
+                            createdAt: string;
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Delete template */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        name?: string;
+                        subject?: string;
+                        html?: string;
+                        content?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Update template */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/suppressions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    limit?: number;
+                    search?: string;
+                    reason?: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE" | null;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List suppressions */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /** Format: email */
+                        email: string;
+                        /** @enum {string} */
+                        reason: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE";
+                        source?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Create suppression */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/suppressions/email/{email}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    email: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Delete suppression */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+                /** @description Suppression not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": Record<string, never>;
+                    };
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;

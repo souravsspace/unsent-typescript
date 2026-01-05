@@ -2,7 +2,14 @@ import type { ErrorResponse } from "../types";
 import { Contacts } from "./contact";
 import { Emails } from "./email";
 import { Domains } from "./domain";
+import { ContactBooks } from "./contact-book";
+import { Templates } from "./template";
+import { Webhooks } from "./webhook";
+import { Analytics } from "./analytics";
 import { Campaigns } from "./campaign";
+import { Suppressions } from "./suppression";
+import { ApiKeys } from "./api-key";
+import { Settings } from "./settings";
 
 const defaultBaseUrl = "https://api.unsent.dev";
 const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/v1`;
@@ -17,7 +24,14 @@ export class unsent {
   readonly domains = new Domains(this);
   readonly emails = new Emails(this);
   readonly contacts = new Contacts(this);
+  readonly contactBooks = new ContactBooks(this);
+  readonly templates = new Templates(this);
+  readonly webhooks = new Webhooks(this);
+  readonly analytics = new Analytics(this);
   readonly campaigns = new Campaigns(this);
+  readonly suppressions = new Suppressions(this);
+  readonly apiKeys = new ApiKeys(this);
+  readonly settings = new Settings(this);
 
   url = baseUrl;
 

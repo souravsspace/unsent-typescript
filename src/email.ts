@@ -74,6 +74,42 @@ type BatchEmailResponse = {
   error: ErrorResponse | null;
 };
 
+type ListEmailsResponseSuccess =
+  paths["/v1/emails"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type ListEmailsResponse = {
+  data: ListEmailsResponseSuccess["data"] | null;
+  count: number | null;
+  error: ErrorResponse | null;
+};
+
+type GetComplaintsResponseSuccess =
+  paths["/v1/emails/complaints"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetComplaintsResponse = {
+  data: GetComplaintsResponseSuccess["data"] | null;
+  count: number | null;
+  error: ErrorResponse | null;
+};
+
+type GetBouncesResponseSuccess =
+  paths["/v1/emails/bounces"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetBouncesResponse = {
+  data: GetBouncesResponseSuccess["data"] | null;
+  count: number | null;
+  error: ErrorResponse | null;
+};
+
+type GetUnsubscribesResponseSuccess =
+  paths["/v1/emails/unsubscribes"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetUnsubscribesResponse = {
+  data: GetUnsubscribesResponseSuccess["data"] | null;
+  count: number | null;
+  error: ErrorResponse | null;
+};
+
 
 export class Emails {
   constructor(private readonly unsent: unsent) {
@@ -123,7 +159,101 @@ export class Emails {
         : undefined,
     );
     return {
-      data: response.data ? response.data.data : null,
+      data: response.data ? (response.data.data as any) : null,
+      error: response.error,
+    };
+  }
+
+  async list(query?: {
+    page?: number;
+    limit?: number;
+    startDate?: string;
+    endDate?: string;
+    domainId?: string | string[];
+  }): Promise<ListEmailsResponse> {
+    const params = new URLSearchParams();
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    if (query?.startDate) params.append("startDate", query.startDate);
+    if (query?.endDate) params.append("endDate", query.endDate);
+
+    if (query?.domainId) {
+      if (Array.isArray(query.domainId)) {
+        query.domainId.forEach((id) => params.append("domainId", id));
+      } else {
+        params.append("domainId", query.domainId);
+      }
+    }
+
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+    
+    const response = await this.unsent.get<ListEmailsResponseSuccess>(
+      `/emails${queryString}`
+    );
+
+    return {
+      data: response.data?.data ?? null,
+      count: response.data?.count ?? null,
+      error: response.error,
+    };
+  }
+
+  async getComplaints(query?: {
+    page?: number;
+    limit?: number;
+  }): Promise<GetComplaintsResponse> {
+    const params = new URLSearchParams();
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const response = await this.unsent.get<GetComplaintsResponseSuccess>(
+      `/emails/complaints${queryString}`
+    );
+
+    return {
+      data: response.data?.data ?? null,
+      count: response.data?.count ?? null,
+      error: response.error,
+    };
+  }
+
+  async getBounces(query?: {
+    page?: number;
+    limit?: number;
+  }): Promise<GetBouncesResponse> {
+    const params = new URLSearchParams();
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const response = await this.unsent.get<GetBouncesResponseSuccess>(
+      `/emails/bounces${queryString}`
+    );
+
+    return {
+      data: response.data?.data ?? null,
+      count: response.data?.count ?? null,
+      error: response.error,
+    };
+  }
+
+  async getUnsubscribes(query?: {
+    page?: number;
+    limit?: number;
+  }): Promise<GetUnsubscribesResponse> {
+    const params = new URLSearchParams();
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const response = await this.unsent.get<GetUnsubscribesResponseSuccess>(
+      `/emails/unsubscribes${queryString}`
+    );
+
+    return {
+      data: response.data?.data ?? null,
+      count: response.data?.count ?? null,
       error: response.error,
     };
   }

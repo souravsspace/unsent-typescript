@@ -44,6 +44,10 @@ export class Campaigns {
     this.unsent = unsent;
   }
 
+  async list(): Promise<{ data: any[] | null; error: ErrorResponse | null }> {
+    return this.unsent.get<any[]>("/campaigns");
+  }
+
   async create(
     payload: CreateCampaignPayload,
   ): Promise<CreateCampaignResponse> {

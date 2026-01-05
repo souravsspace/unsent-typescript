@@ -53,6 +53,10 @@ export class Contacts {
     this.unsent = unsent;
   }
 
+  async list(contactBookId: string): Promise<{ data: any[] | null; error: ErrorResponse | null }> {
+    return this.unsent.get<any[]>(`/contactBooks/${contactBookId}/contacts`);
+  }
+
   async create(
     contactBookId: string,
     payload: CreateContactPayload
