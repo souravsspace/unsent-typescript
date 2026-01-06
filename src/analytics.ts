@@ -2,12 +2,13 @@ import type { ErrorResponse } from "../types";
 import type { paths } from "../types/schema";
 import type { unsent } from "./unsent";
 
+type GetAnalyticsResponseSuccess =
+  paths["/v1/analytics"]["get"]["responses"]["200"]["content"]["application/json"];
+
 type GetAnalyticsResponse = {
-  data: any | null; // Placeholder type
+  data: GetAnalyticsResponseSuccess | null;
   error: ErrorResponse | null;
 };
-
-
 
 type GetTimeSeriesResponseSuccess =
   paths["/v1/analytics/time-series"]["get"]["responses"]["200"]["content"]["application/json"];
@@ -31,11 +32,13 @@ export class Analytics {
     this.unsent = unsent;
   }
 
-  async get(query?: Record<string, string>): Promise<GetAnalyticsResponse> {
-    // Construct query string if needed
-    return this.unsent.get<any>("/analytics");
+  async get(): Promise<GetAnalyticsResponse> {
+    const data = await this.unsent.get<GetAnalyticsResponseSuccess>("/analytics");
+    return {
+      data: data.data,
+      error: data.error,
+    };
   }
-
 
   async getTimeSeries(query?: {
     days?: number;
@@ -46,9 +49,14 @@ export class Analytics {
     if (query?.domain) params.append("domain", query.domain);
     const queryString = params.toString() ? `?${params.toString()}` : "";
 
-    return this.unsent.get<GetTimeSeriesResponseSuccess>(
+    const data = await this.unsent.get<GetTimeSeriesResponseSuccess>(
       `/analytics/time-series${queryString}`
     );
+
+    return {
+      data: data.data,
+      error: data.error,
+    };
   }
 
   async getReputation(query?: {
@@ -58,8 +66,13 @@ export class Analytics {
     if (query?.domain) params.append("domain", query.domain);
     const queryString = params.toString() ? `?${params.toString()}` : "";
 
-    return this.unsent.get<GetReputationResponseSuccess>(
+    const data = await this.unsent.get<GetReputationResponseSuccess>(
       `/analytics/reputation${queryString}`
     );
+
+    return {
+      data: data.data,
+      error: data.error,
+    };
   }
 }

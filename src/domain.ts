@@ -1,9 +1,9 @@
-import { paths } from "../types/schema";
-import { ErrorResponse } from "../types";
-import { unsent } from "./unsent";
+import type { paths } from "../types/schema";
+import type { ErrorResponse } from "../types";
+import type { unsent } from "./unsent";
 
 type CreateDomainPayload =
-  paths["/v1/domains"]["post"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/domains"]["post"]["requestBody"]>["content"]["application/json"];
 
 type CreateDomainResponse = {
   data: CreateDomainResponseSuccess | null;
@@ -63,7 +63,7 @@ export class Domains {
     return data;
   }
 
-  async verify(id: number): Promise<VerifyDomainResponse> {
+  async verify(id: string): Promise<VerifyDomainResponse> {
     const data = await this.unsent.put<VerifyDomainResponseSuccess>(
       `/domains/${id}/verify`,
       {},
@@ -71,7 +71,7 @@ export class Domains {
     return data;
   }
 
-  async get(id: number): Promise<GetDomainResponse> {
+  async get(id: string): Promise<GetDomainResponse> {
     const data = await this.unsent.get<GetDomainResponseSuccess>(
       `/domains/${id}`,
     );
@@ -79,7 +79,7 @@ export class Domains {
     return data;
   }
 
-  async delete(id: number): Promise<DeleteDomainResponse> {
+  async delete(id: string): Promise<DeleteDomainResponse> {
     const data = await this.unsent.delete<DeleteDomainResponseSuccess>(
       `/domains/${id}`,
     );

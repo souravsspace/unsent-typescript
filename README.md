@@ -1,5 +1,7 @@
 # @unsent/sdk SDK
 
+The official TypeScript SDK for the Unsent API. Send transactional emails, manage contacts, campaigns, and more with ease.
+
 ## Prerequisites
 
 - [unsent API key](https://app.unsent.dev/dev-settings/api-keys)
@@ -46,22 +48,22 @@ const client = new unsent("un_xxxx");
 You can also set your API key using environment variables:
 
 ```typescript
-// Set UNSENT_API_KEY or UNSENT_API_KEY in your environment
+// Set UNSENT_API_KEY in your environment
 // Then initialize without passing the key
 const client = new unsent();
 ```
 
-### Sending Emails
+### Emails
 
-#### Simple Email
+#### Send Email
 
 ```typescript
 const { data, error } = await client.emails.send({
   to: "hello@acme.com",
   from: "hello@company.com",
   subject: "unsent email",
-  html: "<p>unsent is the best email service provider to send emails</p>",
-  text: "unsent is the best email service provider to send emails",
+  html: "<p>unsent is the best email service provider</p>",
+  text: "unsent is the best email service provider",
 });
 
 if (error) {
@@ -71,152 +73,32 @@ if (error) {
 }
 ```
 
-#### Email with Attachments
+#### Get Email
 
 ```typescript
-const { data, error } = await client.emails.send({
-  to: "hello@acme.com",
-  from: "hello@company.com",
-  subject: "Email with attachment",
-  html: "<p>Please find the attachment below</p>",
-  attachments: [
-    {
-      filename: "document.pdf",
-      content: "base64-encoded-content-here",
-    },
-  ],
-});
+const { data, error } = await client.emails.get("email_id");
 ```
 
-#### Email with React Component
+#### Send Batch Emails
 
 ```typescript
-import { MyEmailTemplate } from "./templates/MyEmailTemplate"
+const emails = [
+   { to: "user1@example.com", from: "hello@company.com", subject: "Hi", html: "<p>Hi</p>" },
+   { to: "user2@example.com", from: "hello@company.com", subject: "Hello", html: "<p>Hello</p>" }
+];
 
-const { data, error } = await client.emails.send({
-   to: "hello@acme.com",
-   from: "hello@company.com",
-   subject: "Email with React template",
-   react: <MyEmailTemplate name="John" />,
-})
+const { data, error } = await client.emails.batch(emails);
 ```
 
-#### Scheduled Email
+#### Schedule Email
 
 ```typescript
-const scheduledTime = new Date();
-scheduledTime.setHours(scheduledTime.getHours() + 1); // Schedule for 1 hour from now
-
 const { data, error } = await client.emails.send({
   to: "hello@acme.com",
   from: "hello@company.com",
   subject: "Scheduled email",
-  html: "<p>This email was scheduled</p>",
-  scheduledAt: scheduledTime.toISOString(),
-});
-```
-
-#### Batch Emails
-
-```typescript
-const emails = [
-  {
-    to: "user1@example.com",
-    from: "hello@company.com",
-    subject: "Hello User 1",
-    html: "<p>Welcome User 1</p>",
-  },
-  {
-    to: "user2@example.com",
-    from: "hello@company.com",
-    subject: "Hello User 2",
-    html: "<p>Welcome User 2</p>",
-  },
-];
-
-const { data, error } = await client.emails.batch(emails);
-
-if (error) {
-  console.error("Error:", error);
-} else {
-  console.log(`Sent ${data.length} emails`);
-}
-```
-
-#### Idempotency Keys
-
-Safely retry email sends with an idempotency key to prevent duplicate sends. This is especially useful for critical emails like signup confirmations or password resets.
-
-```typescript
-// Safely retry sends with an idempotency key
-const { data, error } = await client.emails.send(
-  {
-    to: "hello@acme.com",
-    from: "hello@company.com",
-    subject: "unsent email",
-    html: "<p>unsent is the best open source product to send emails</p>",
-  },
-  { idempotencyKey: "signup-123" },
-);
-
-if (error) {
-  console.error("Error:", error);
-} else {
-  console.log("Email sent! ID:", data.id);
-}
-```
-
-Idempotency keys also work for batch sends:
-
-```typescript
-// Works for bulk sends too
-const { data, error } = await client.emails.batch(
-  [
-    {
-      to: "a@example.com",
-      from: "hello@company.com",
-      subject: "Welcome",
-      html: "<p>Hello A</p>",
-    },
-    {
-      to: "b@example.com",
-      from: "hello@company.com",
-      subject: "Welcome",
-      html: "<p>Hello B</p>",
-    },
-  ],
-  { idempotencyKey: "bulk-welcome-1" },
-);
-
-if (error) {
-  console.error("Error:", error);
-} else {
-  console.log(`Sent ${data.length} emails`);
-}
-```
-
-> **Note:** Reusing the same idempotency key with a different payload will return HTTP 409 (Conflict). This ensures that retries are safe and prevents accidental duplicate sends with modified content.
-
-### Managing Emails
-
-#### Get Email Details
-
-```typescript
-const { data, error } = await client.emails.get("email_id");
-
-if (error) {
-  console.error("Error:", error);
-} else {
-  console.log("Email status:", data.status);
-}
-```
-
-#### Update Email
-
-```typescript
-const { data, error } = await client.emails.update("email_id", {
-  subject: "Updated subject",
-  html: "<p>Updated content</p>",
+  html: "<p>This is scheduled</p>",
+  scheduledAt: "2024-12-25T10:00:00Z",
 });
 ```
 
@@ -224,15 +106,9 @@ const { data, error } = await client.emails.update("email_id", {
 
 ```typescript
 const { data, error } = await client.emails.cancel("email_id");
-
-if (error) {
-  console.error("Error:", error);
-} else {
-  console.log("Email cancelled successfully");
-}
 ```
 
-### Managing Contacts
+### Contacts
 
 #### Create Contact
 
@@ -241,215 +117,340 @@ const { data, error } = await client.contacts.create("contact_book_id", {
   email: "user@example.com",
   firstName: "John",
   lastName: "Doe",
-  metadata: {
-    company: "Acme Inc",
-    role: "Developer",
-  },
+  metadata: { role: "Admin" }
+});
+```
+
+#### List Contacts
+
+```typescript
+const { data, error } = await client.contacts.list("contact_book_id", {
+  page: 1,
+  limit: 20,
+  emails: "user@example.com",
+  ids: "id1,id2"
 });
 ```
 
 #### Get Contact
 
 ```typescript
-const { data, error } = await client.contacts.get(
-  "contact_book_id",
-  "contact_id",
-);
+const { data, error } = await client.contacts.get("contact_book_id", "contact_id");
 ```
 
 #### Update Contact
 
 ```typescript
-const { data, error } = await client.contacts.update(
-  "contact_book_id",
-  "contact_id",
-  {
-    firstName: "Jane",
-    metadata: {
-      role: "Senior Developer",
-    },
-  },
-);
+const { data, error } = await client.contacts.update("contact_book_id", "contact_id", {
+  firstName: "Jane"
+});
 ```
 
 #### Upsert Contact
 
 ```typescript
-// Creates if doesn't exist, updates if exists
-const { data, error } = await client.contacts.upsert(
-  "contact_book_id",
-  "contact_id",
-  {
-    email: "user@example.com",
-    firstName: "John",
-    lastName: "Doe",
-  },
-);
+const { data, error } = await client.contacts.upsert("contact_book_id", "contact_id", {
+  email: "user@example.com",
+  firstName: "John"
+});
 ```
 
 #### Delete Contact
 
 ```typescript
-const { data, error } = await client.contacts.delete(
-  "contact_book_id",
-  "contact_id",
-);
+const { data, error } = await client.contacts.delete("contact_book_id", "contact_id");
 ```
 
-### Managing Campaigns
+### Contact Books
 
-Create and manage email campaigns:
+#### List Contact Books
 
 ```typescript
-import { unsent } from "@unsent/sdk";
-
-const client = new unsent("un_xxxx");
-
-// Create a campaign
-const campaign = await client.campaigns.create({
-  name: "Welcome Series",
-  from: "hello@company.com",
-  subject: "Welcome to our platform!",
-  contactBookId: "cb_12345",
-  html: "<h1>Welcome!</h1><p>Thanks for joining us.</p>",
-  sendNow: false,
-});
-
-if (campaign.error) {
-  console.error("Error creating campaign:", campaign.error);
-} else {
-  console.log("Campaign created:", campaign.data.id);
-}
-
-// Schedule a campaign
-const scheduleResult = await client.campaigns.schedule(campaign.data.id, {
-  scheduledAt: "2024-12-01T09:00:00Z",
-  batchSize: 1000,
-});
-
-if (scheduleResult.error) {
-  console.error("Error scheduling campaign:", scheduleResult.error);
-} else {
-  console.log("Campaign scheduled successfully");
-}
-
-// Get campaign details
-const details = await client.campaigns.get(campaign.data.id);
-
-if (details.error) {
-  console.error("Error getting details:", details.error);
-} else {
-  console.log("Campaign status:", details.data.status);
-  console.log("Total recipients:", details.data.total);
-}
-
-// Pause a campaign
-const pauseResult = await client.campaigns.pause(campaign.data.id);
-
-if (pauseResult.error) {
-  console.error("Error pausing campaign:", pauseResult.error);
-} else {
-  console.log("Campaign paused successfully");
-}
-
-// Resume a campaign
-const resumeResult = await client.campaigns.resume(campaign.data.id);
-
-if (resumeResult.error) {
-  console.error("Error resuming campaign:", resumeResult.error);
-} else {
-  console.log("Campaign resumed successfully");
-}
+const { data, error } = await client.contactBooks.list();
 ```
 
-### Error Handling
+#### Create Contact Book
+
+```typescript
+const { data, error } = await client.contactBooks.create({
+  name: "Newsletter Subscribers",
+  emoji: "📧"
+});
+```
+
+#### Get Contact Book
+
+```typescript
+const { data, error } = await client.contactBooks.get("book_id");
+```
+
+#### Update Contact Book
+
+```typescript
+const { data, error } = await client.contactBooks.update("book_id", {
+  name: "New Name"
+});
+```
+
+#### Delete Contact Book
+
+```typescript
+const { data, error } = await client.contactBooks.delete("book_id");
+```
+
+### Campaigns
+
+#### Create Campaign
+
+```typescript
+const { data, error } = await client.campaigns.create({
+  name: "Monthly Newsletter",
+  from: "news@company.com",
+  subject: "January Updates",
+  contactBookId: "book_id",
+  html: "<h1>News</h1>",
+  sendNow: false // set to true to send immediately
+});
+```
+
+#### Get Campaign
+
+```typescript
+const { data, error } = await client.campaigns.get("campaign_id");
+```
+
+#### Schedule Campaign
+
+```typescript
+const { data, error } = await client.campaigns.schedule("campaign_id", {
+  scheduledAt: "2025-01-01T09:00:00Z",
+  batchSize: 500
+});
+```
+
+#### Pause/Resume Campaign
+
+```typescript
+await client.campaigns.pause("campaign_id");
+await client.campaigns.resume("campaign_id");
+```
+
+### Templates
+
+#### List Templates
+
+```typescript
+const { data, error } = await client.templates.list();
+```
+
+#### Create Template
+
+```typescript
+const { data, error } = await client.templates.create({
+  name: "Welcome Email",
+  subject: "Welcome {{name}}",
+  html: "<h1>Welcome!</h1>"
+});
+```
+
+#### Get Template
+
+```typescript
+const { data, error } = await client.templates.get("template_id");
+```
+
+#### Update Template
+
+```typescript
+const { data, error } = await client.templates.update("template_id", {
+  subject: "New Subject"
+});
+```
+
+#### Delete Template
+
+```typescript
+const { data, error } = await client.templates.delete("template_id");
+```
+
+### Webhooks
+
+> **Note:** Webhooks are currently in development. The following methods are placeholders for future implementation.
+
+#### List Webhooks
+
+```typescript
+const { data, error } = await client.webhooks.list();
+```
+
+#### Create Webhook
+
+```typescript
+const { data, error } = await client.webhooks.create({
+  url: "https://api.myapp.com/webhooks/unsent",
+  events: ["email.sent", "email.opened"]
+});
+```
+
+#### Update Webhook
+
+```typescript
+const { data, error } = await client.webhooks.update("webhook_id", {
+  events: ["email.bounced"]
+});
+```
+
+#### Delete Webhook
+
+```typescript
+const { data, error } = await client.webhooks.delete("webhook_id");
+```
+
+### Domains
+
+#### List Domains
+
+```typescript
+const { data, error } = await client.domains.list();
+```
+
+#### Create Domain
+
+```typescript
+const { data, error } = await client.domains.create({
+  domain: "mail.example.com"
+});
+```
+
+#### Verify Domain
+
+```typescript
+const { data, error } = await client.domains.verify("123"); // Uses domain ID (string)
+```
+
+#### Get Domain
+
+```typescript
+const { data, error } = await client.domains.get("123");
+```
+
+#### Delete Domain
+
+```typescript
+const { data, error } = await client.domains.delete("123");
+```
+
+### Analytics
+
+#### Get General Analytics
+
+```typescript
+const { data, error } = await client.analytics.get();
+```
+
+#### Get Time Series
+
+```typescript
+const { data, error } = await client.analytics.getTimeSeries({
+  days: 30,
+  domain: "example.com"
+});
+```
+
+#### Get Reputation
+
+```typescript
+const { data, error } = await client.analytics.getReputation({
+  domain: "example.com"
+});
+```
+
+### Suppressions
+
+#### List Suppressions
+
+```typescript
+const { data, error } = await client.suppressions.list({
+  page: 1,
+  limit: 10,
+  search: "test",
+  reason: "COMPLAINT"
+});
+```
+
+#### Add Suppression
+
+```typescript
+const { data, error } = await client.suppressions.add({
+  email: "bad@example.com",
+  reason: "COMPLAINT"
+});
+```
+
+#### Delete Suppression
+
+```typescript
+const { data, error } = await client.suppressions.delete("bad@example.com");
+```
+
+### API Keys
+
+#### List API Keys
+
+```typescript
+const { data, error } = await client.apiKeys.list();
+```
+
+#### Create API Key
+
+```typescript
+const { data, error } = await client.apiKeys.create({
+  name: "Prod Key",
+  permission: "FULL"
+});
+```
+
+#### Delete API Key
+
+```typescript
+const { data, error } = await client.apiKeys.delete("key_id");
+```
+
+### Settings
+
+#### Get Settings
+
+```typescript
+const { data, error } = await client.settings.get();
+```
+
+## Error Handling
 
 The SDK returns a consistent response structure with `data` and `error`:
 
 ```typescript
-const { data, error } = await client.emails.send({
-  to: "invalid-email",
-  from: "hello@company.com",
-  subject: "Test",
-  html: "<p>Test</p>",
-});
+const { data, error } = await client.emails.send({ ... });
 
 if (error) {
+  // error: { code: string; message: string; }
   console.error(`Error ${error.code}: ${error.message}`);
   return;
 }
 
-// Safe to use data here
-console.log("Email sent:", data.id);
+console.log("Success:", data);
 ```
 
 ### TypeScript Support
 
-The SDK is fully typed with TypeScript:
+The SDK is fully typed. You can use inferred types:
 
 ```typescript
 import { unsent } from "@unsent/sdk";
 
-const client = new unsent("un_xxxx");
-
-// Full type inference and autocomplete
-const result = await client.emails.send({
-  to: "hello@acme.com",
-  from: "hello@company.com",
-  subject: "Typed email",
-  html: "<p>Fully typed!</p>",
-});
-
-// Type-safe access
-if (result.data) {
-  const emailId: string = result.data.id;
-}
+const client = new unsent();
+// Types are automatically inferred
+const { data } = await client.domains.list();
 ```
-
-## API Reference
-
-### Client Methods
-
-- `new unsent(key?, url?)` - Initialize the client
-
-### Email Methods
-
-- `client.emails.send(payload)` - Send an email (alias for `create`)
-- `client.emails.create(payload)` - Create and send an email
-- `client.emails.batch(emails)` - Send multiple emails in batch (max 100)
-- `client.emails.get(emailId)` - Get email details
-- `client.emails.update(emailId, payload)` - Update a scheduled email
-- `client.emails.cancel(emailId)` - Cancel a scheduled email
-
-### Contact Methods
-
-- `client.contacts.create(bookId, payload)` - Create a contact
-- `client.contacts.get(bookId, contactId)` - Get contact details
-- `client.contacts.update(bookId, contactId, payload)` - Update a contact
-- `client.contacts.upsert(bookId, contactId, payload)` - Upsert a contact
-- `client.contacts.delete(bookId, contactId)` - Delete a contact
-
-### Campaign Methods
-
-- `client.campaigns.create(payload)` - Create a campaign
-- `client.campaigns.get(campaignId)` - Get campaign details
-- `client.campaigns.schedule(campaignId, payload)` - Schedule a campaign
-- `client.campaigns.pause(campaignId)` - Pause a campaign
-- `client.campaigns.resume(campaignId)` - Resume a campaign
-
-## Features
-
-- 🔐 **Type-safe** - Full TypeScript support with type inference
-- ⚡ **Modern** - Built with ESM and async/await
-- 🎨 **React Email** - Send emails using React components
-- 📦 **Lightweight** - Minimal dependencies
-- 🔄 **Batch sending** - Send up to 100 emails in a single request
-- ⏰ **Scheduled emails** - Schedule emails for later delivery
-
-## Requirements
-
-- Node.js 16+
-- TypeScript 4.7+ (for TypeScript projects)
 
 ## License
 

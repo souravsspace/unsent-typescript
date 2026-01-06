@@ -3,7 +3,7 @@ import type { paths } from "../types/schema";
 import type { unsent } from "./unsent";
 
 type CreateContactPayload =
-  paths["/v1/contactBooks/{contactBookId}/contacts"]["post"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/contactBooks/{contactBookId}/contacts"]["post"]["requestBody"]>["content"]["application/json"];
 
 type CreateContactResponse = {
   data: CreateContactResponseSuccess | null;
@@ -12,6 +12,14 @@ type CreateContactResponse = {
 
 type CreateContactResponseSuccess =
   paths["/v1/contactBooks/{contactBookId}/contacts"]["post"]["responses"]["200"]["content"]["application/json"];
+
+type ListContactsResponseSuccess =
+  paths["/v1/contactBooks/{contactBookId}/contacts"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type ListContactsResponse = {
+  data: ListContactsResponseSuccess | null;
+  error: ErrorResponse | null;
+};
 
 type GetContactResponseSuccess =
   paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["get"]["responses"]["200"]["content"]["application/json"];
@@ -22,7 +30,7 @@ type GetContactResponse = {
 };
 
 type UpdateContactPayload =
-  paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["patch"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["patch"]["requestBody"]>["content"]["application/json"];
 
 type UpdateContactResponseSuccess =
   paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["patch"]["responses"]["200"]["content"]["application/json"];
@@ -33,7 +41,7 @@ type UpdateContactResponse = {
 };
 
 type UpsertContactPayload =
-  paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["put"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["put"]["requestBody"]>["content"]["application/json"];
 
 type UpsertContactResponseSuccess =
   paths["/v1/contactBooks/{contactBookId}/contacts/{contactId}"]["put"]["responses"]["200"]["content"]["application/json"];
@@ -53,8 +61,28 @@ export class Contacts {
     this.unsent = unsent;
   }
 
-  async list(contactBookId: string): Promise<{ data: any[] | null; error: ErrorResponse | null }> {
-    return this.unsent.get<any[]>(`/contactBooks/${contactBookId}/contacts`);
+  async list(contactBookId: string, query?: {
+    emails?: string;
+    page?: number;
+    limit?: number;
+    ids?: string;
+  }): Promise<ListContactsResponse> {
+    const params = new URLSearchParams();
+    if (query?.emails) params.append("emails", query.emails);
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    if (query?.ids) params.append("ids", query.ids);
+    
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const response = await this.unsent.get<ListContactsResponseSuccess>(
+      `/contactBooks/${contactBookId}/contacts${queryString}`
+    );
+
+    return {
+      data: response.data,
+      error: response.error,
+    };
   }
 
   async create(

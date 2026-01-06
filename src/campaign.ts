@@ -1,9 +1,9 @@
-import { unsent } from "./unsent";
-import { paths } from "../types/schema";
-import { ErrorResponse } from "../types";
+import type { unsent } from "./unsent";
+import type { paths } from "../types/schema";
+import type { ErrorResponse } from "../types";
 
 type CreateCampaignPayload =
-  paths["/v1/campaigns"]["post"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/campaigns"]["post"]["requestBody"]>["content"]["application/json"];
 
 type CreateCampaignResponseSuccess =
   paths["/v1/campaigns"]["post"]["responses"]["200"]["content"]["application/json"];
@@ -22,7 +22,7 @@ type GetCampaignResponse = {
 };
 
 type ScheduleCampaignPayload =
-  paths["/v1/campaigns/{campaignId}/schedule"]["post"]["requestBody"]["content"]["application/json"];
+  NonNullable<paths["/v1/campaigns/{campaignId}/schedule"]["post"]["requestBody"]>["content"]["application/json"];
 
 type ScheduleCampaignResponseSuccess =
   paths["/v1/campaigns/{campaignId}/schedule"]["post"]["responses"]["200"]["content"]["application/json"];
@@ -32,10 +32,19 @@ type ScheduleCampaignResponse = {
   error: ErrorResponse | null;
 };
 
-type CampaignActionResponseSuccess = { success: boolean };
+type CampaignActionResponseSuccess = 
+  paths["/v1/campaigns/{campaignId}/pause"]["post"]["responses"]["200"]["content"]["application/json"];
 
 type CampaignActionResponse = {
   data: CampaignActionResponseSuccess | null;
+  error: ErrorResponse | null;
+};
+
+type ListCampaignsResponseSuccess =
+  paths["/v1/campaigns"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type ListCampaignsResponse = {
+  data: ListCampaignsResponseSuccess | null;
   error: ErrorResponse | null;
 };
 
@@ -44,8 +53,12 @@ export class Campaigns {
     this.unsent = unsent;
   }
 
-  async list(): Promise<{ data: any[] | null; error: ErrorResponse | null }> {
-    return this.unsent.get<any[]>("/campaigns");
+  async list(): Promise<ListCampaignsResponse> {
+    const data = await this.unsent.get<ListCampaignsResponseSuccess>("/campaigns");
+    return {
+       data: data.data,
+       error: data.error,
+    };
   }
 
   async create(

@@ -1,12 +1,13 @@
 {
   "name": "@unsent/sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "TypeScript SDK for the Unsent API - Send transactional emails with ease",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsup index.ts --format esm,cjs --dts",
+    "test": "vitest",
     "publish-sdk": "pnpm run build && pnpm publish --no-git-checks --access public",
     "openapi:generate": "openapi-typescript ../../apps/docs/public/api-reference.json -o types/schema.d.ts"
   },
@@ -38,10 +39,12 @@
     "@unsent/typescript-config": "workspace:*",
     "openapi-typescript": "^7.6.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@unsent/vitest-config": "workspace:*"
   },
   "dependencies": {
     "@react-email/render": "^1.0.6",
-    "react": "^19.1.0"
+    "react": "^19.1.0",
+    "vitest": "^2.1.8"
   }
 }

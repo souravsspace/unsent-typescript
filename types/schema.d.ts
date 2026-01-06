@@ -15,30 +15,7 @@ export interface paths {
          * Health Check
          * @description Check if the API is running correctly
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description API is healthy */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            status: string;
-                            uptime: number;
-                            timestamp: number;
-                        };
-                    };
-                };
-            };
-        };
+        get: operations["getHealth"];
         put?: never;
         post?: never;
         delete?: never;
@@ -54,58 +31,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List API Keys */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of API keys for the current team */
+        get: operations["getApiKeys"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        /**
-                         * @default FULL
-                         * @enum {string}
-                         */
-                        permission?: "FULL" | "SENDING";
-                    };
-                };
-            };
-            responses: {
-                /** @description Create API Key */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Create a new API key for the current team */
+        post: operations["createApiKey"];
         delete?: never;
         options?: never;
         head?: never;
@@ -122,28 +52,8 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Delete API Key */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Delete an API key by ID */
+        delete: operations["deleteApiKey"];
         options?: never;
         head?: never;
         patch?: never;
@@ -156,26 +66,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get Settings */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve team settings */
+        get: operations["getSettings"];
         put?: never;
         post?: never;
         delete?: never;
@@ -191,26 +83,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get Analytics */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve email analytics */
+        get: operations["getAnalytics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -226,29 +100,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    days?: string;
-                    domain?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get Email Time Series */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve analytics data over time */
+        get: operations["getTimeSeries"];
         put?: never;
         post?: never;
         delete?: never;
@@ -264,28 +117,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    domain?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get Reputation Metrics */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve sender reputation score */
+        get: operations["getReputation"];
         put?: never;
         post?: never;
         delete?: never;
@@ -301,120 +134,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve domains accessible by the API key */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of domains */
+        get: operations["getDomains"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        region: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Create a new domain */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /**
-                             * @description The ID of the domain
-                             * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
-                             */
-                            id: string;
-                            /**
-                             * @description The name of the domain
-                             * @example example.com
-                             */
-                            name: string;
-                            /**
-                             * @description The ID of the team
-                             * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
-                             */
-                            teamId: string;
-                            /** @description The status of the domain */
-                            status: string;
-                            /**
-                             * @description The region of the domain
-                             * @default us-east-1
-                             * @example us-east-1
-                             */
-                            region: string;
-                            /**
-                             * @description Whether click tracking is enabled
-                             * @default false
-                             * @example false
-                             */
-                            clickTracking: boolean;
-                            /**
-                             * @description Whether open tracking is enabled
-                             * @default false
-                             * @example false
-                             */
-                            openTracking: boolean;
-                            /** @description The public key of the domain */
-                            publicKey: string;
-                            /** @description The DKIM status of the domain */
-                            dkimStatus?: string | null;
-                            /** @description The SPF details of the domain */
-                            spfDetails?: string | null;
-                            /** @description The creation date of the domain */
-                            createdAt: string;
-                            /** @description The last update date of the domain */
-                            updatedAt: string;
-                            /**
-                             * @description Whether DMARC is added
-                             * @default false
-                             */
-                            dmarcAdded: boolean;
-                            /**
-                             * @description Whether the domain is verifying
-                             * @default false
-                             */
-                            isVerifying: boolean;
-                            /** @description The error message of the domain */
-                            errorMessage?: string | null;
-                            /** @description The subdomain of the domain */
-                            subdomain?: string | null;
-                            /** @description The verification error of the domain */
-                            verificationError?: string | null;
-                            /** @description The last checked time of the domain */
-                            lastCheckedTime?: string | null;
-                            /** @description The DNS records of the domain */
-                            dnsRecords: unknown[];
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Create a new domain */
+        post: operations["createDomain"];
         delete?: never;
         options?: never;
         head?: never;
@@ -429,46 +153,8 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Verify domain */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-                /** @description Forbidden - API key doesn't have access to this domain */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-                /** @description Domain not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Trigger domain verification */
+        put: operations["verifyDomain"];
         post?: never;
         delete?: never;
         options?: never;
@@ -483,134 +169,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve the domain */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /**
-                             * @description The ID of the domain
-                             * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
-                             */
-                            id: string;
-                            /**
-                             * @description The name of the domain
-                             * @example example.com
-                             */
-                            name: string;
-                            /**
-                             * @description The ID of the team
-                             * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
-                             */
-                            teamId: string;
-                            /** @description The status of the domain */
-                            status: string;
-                            /**
-                             * @description The region of the domain
-                             * @default us-east-1
-                             * @example us-east-1
-                             */
-                            region: string;
-                            /**
-                             * @description Whether click tracking is enabled
-                             * @default false
-                             * @example false
-                             */
-                            clickTracking: boolean;
-                            /**
-                             * @description Whether open tracking is enabled
-                             * @default false
-                             * @example false
-                             */
-                            openTracking: boolean;
-                            /** @description The public key of the domain */
-                            publicKey: string;
-                            /** @description The DKIM status of the domain */
-                            dkimStatus?: string | null;
-                            /** @description The SPF details of the domain */
-                            spfDetails?: string | null;
-                            /** @description The creation date of the domain */
-                            createdAt: string;
-                            /** @description The last update date of the domain */
-                            updatedAt: string;
-                            /**
-                             * @description Whether DMARC is added
-                             * @default false
-                             */
-                            dmarcAdded: boolean;
-                            /**
-                             * @description Whether the domain is verifying
-                             * @default false
-                             */
-                            isVerifying: boolean;
-                            /** @description The error message of the domain */
-                            errorMessage?: string | null;
-                            /** @description The subdomain of the domain */
-                            subdomain?: string | null;
-                            /** @description The verification error of the domain */
-                            verificationError?: string | null;
-                            /** @description The last checked time of the domain */
-                            lastCheckedTime?: string | null;
-                            /** @description The DNS records of the domain */
-                            dnsRecords: unknown[];
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Retrieve domain details by ID */
+        get: operations["getDomain"];
         put?: never;
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Domain deleted successfully */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-                /** @description Forbidden - API key doesn't have access */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Domain not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Delete a domain by ID */
+        delete: operations["deleteDomain"];
         options?: never;
         head?: never;
         patch?: never;
@@ -623,59 +187,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    emailId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve the email */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve email details by ID */
+        get: operations["getEmail"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    emailId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-            responses: {
-                /** @description Retrieve the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Update a scheduled email */
+        patch: operations["updateEmail"];
         trace?: never;
     };
     "/v1/emails": {
@@ -685,32 +205,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    page?: string;
-                    limit?: string;
-                    startDate?: string;
-                    endDate?: string;
-                    domainId?: string | string[];
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve a list of emails */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of sent emails */
+        get: operations["listEmails"];
         put?: never;
         /** @description Send an email.
          *
@@ -722,62 +218,7 @@ export interface paths {
          *       - Use the `variables` object to replace placeholders in the template (e.g. `{{name}}`).
          *       - The `templateId` must belong to your team.
          *        */
-        post: {
-            parameters: {
-                query?: never;
-                header?: {
-                    /** @description Pass the optional Idempotency-Key header to make the request safe to retry. The key can be up to 256 characters. The server stores the canonical request body and behaves as follows:
-                     *
-                     *     - Same key + same request body → returns the original emailId with 200 OK without re-sending.
-                     *     - Same key + different request body → returns 409 Conflict with code: NOT_UNIQUE so you can detect the mismatch.
-                     *     - Same key while another request is still being processed → returns 409 Conflict; retry after a short delay or once the first request completes.
-                     *
-                     *     Entries expire after 24 hours. Use a unique key per logical send (for example, an order or signup ID). */
-                    "Idempotency-Key"?: string;
-                };
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        to: string | string[];
-                        from: string;
-                        /** @description Optional when templateId is provided */
-                        subject?: string;
-                        /** @description ID of a template from the dashboard */
-                        templateId?: string;
-                        variables?: {
-                            [key: string]: string;
-                        };
-                        replyTo?: string | string[];
-                        cc?: string | string[];
-                        bcc?: string | string[];
-                        text?: string | null;
-                        html?: string | null;
-                        /** @description Custom headers to included with the emails */
-                        headers?: {
-                            [key: string]: string;
-                        };
-                        attachments?: unknown[];
-                        /** Format: date-time */
-                        scheduledAt?: string;
-                        inReplyToId?: string | null;
-                    };
-                };
-            };
-            responses: {
-                /** @description Retrieve the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        post: operations["sendEmail"];
         delete?: never;
         options?: never;
         head?: never;
@@ -791,29 +232,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List bounced emails */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve list of bounced emails */
+        get: operations["getBounces"];
         put?: never;
         post?: never;
         delete?: never;
@@ -829,29 +249,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List email complaints */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve list of spam complaints */
+        get: operations["getComplaints"];
         put?: never;
         post?: never;
         delete?: never;
@@ -867,29 +266,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List unsubscribed emails (contacts) */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve list of unsubscribed emails */
+        get: operations["getUnsubscribes"];
         put?: never;
         post?: never;
         delete?: never;
@@ -907,30 +285,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": unknown[];
-                };
-            };
-            responses: {
-                /** @description List of successfully created email IDs */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Send multiple emails in a single batch */
+        post: operations["sendBatchEmails"];
         delete?: never;
         options?: never;
         head?: never;
@@ -946,28 +302,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    emailId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Cancel a scheduled email */
+        post: operations["cancelScheduledEmail"];
         delete?: never;
         options?: never;
         head?: never;
@@ -981,70 +317,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    emails?: string;
-                    page?: number;
-                    limit?: number;
-                    ids?: string;
-                };
-                header?: never;
-                path: {
-                    contactBookId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve multiple contacts */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of contacts from a contact book */
+        get: operations["getContacts"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    contactBookId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        email: string;
-                        firstName?: string;
-                        lastName?: string;
-                        properties?: {
-                            [key: string]: string;
-                        };
-                        subscribed?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description Retrieve the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            contactId?: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Create a new contact in a contact book */
+        post: operations["createContact"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1058,117 +335,17 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    contactBookId: string;
-                    contactId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve the contact */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    contactBookId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-            responses: {
-                /** @description Contact upserted successfully */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve contact details by ID */
+        get: operations["getContact"];
+        /** @description Create or update a contact */
+        put: operations["upsertContact"];
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    contactBookId: string;
-                    contactId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Contact deleted successfully */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Delete a contact by ID */
+        delete: operations["deleteContact"];
         options?: never;
         head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    contactBookId: string;
-                    contactId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        firstName?: string;
-                        lastName?: string;
-                        properties?: {
-                            [key: string]: string;
-                        };
-                        subscribed?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description Retrieve the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            contactId?: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Update contact details */
+        patch: operations["updateContact"];
         trace?: never;
     };
     "/v1/campaigns": {
@@ -1178,96 +355,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List campaigns */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of campaigns */
+        get: operations["getCampaigns"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        from: string;
-                        subject: string;
-                        previewText?: string;
-                        contactBookId: string;
-                        content?: string;
-                        html?: string;
-                        replyTo?: string | string[];
-                        cc?: string | string[];
-                        bcc?: string | string[];
-                        sendNow?: boolean;
-                        /** @description Timestamp in ISO 8601 format or natural language (e.g., 'tomorrow 9am', 'next monday 10:30') */
-                        scheduledAt?: string;
-                        batchSize?: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description Create a campaign. Note: The campaign content MUST include an unsubscribe link placeholder `{{unsent_unsubscribe_url}}`. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            from: string;
-                            subject: string;
-                            previewText: string | null;
-                            contactBookId: string | null;
-                            html: string | null;
-                            content: string | null;
-                            status: string;
-                            /** Format: date-time */
-                            scheduledAt: string | null;
-                            batchSize: number;
-                            batchWindowMinutes: number;
-                            total: number;
-                            sent: number;
-                            delivered: number;
-                            opened: number;
-                            clicked: number;
-                            unsubscribed: number;
-                            bounced: number;
-                            hardBounced: number;
-                            complained: number;
-                            replyTo: unknown[];
-                            cc: unknown[];
-                            bcc: unknown[];
-                            /** Format: date-time */
-                            createdAt: string;
-                            /** Format: date-time */
-                            updatedAt: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Create a new campaign */
+        post: operations["createCampaign"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1281,58 +373,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    campaignId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get campaign details */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            from: string;
-                            subject: string;
-                            previewText: string | null;
-                            contactBookId: string | null;
-                            html: string | null;
-                            content: string | null;
-                            status: string;
-                            /** Format: date-time */
-                            scheduledAt: string | null;
-                            batchSize: number;
-                            batchWindowMinutes: number;
-                            total: number;
-                            sent: number;
-                            delivered: number;
-                            opened: number;
-                            clicked: number;
-                            unsubscribed: number;
-                            bounced: number;
-                            hardBounced: number;
-                            complained: number;
-                            replyTo: unknown[];
-                            cc: unknown[];
-                            bcc: unknown[];
-                            /** Format: date-time */
-                            createdAt: string;
-                            /** Format: date-time */
-                            updatedAt: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Retrieve campaign details by ID */
+        get: operations["getCampaign"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1350,36 +392,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    campaignId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        /** @description Timestamp in ISO 8601 format or natural language (e.g., 'tomorrow 9am', 'next monday 10:30') */
-                        scheduledAt?: string;
-                        batchSize?: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description Schedule a campaign */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Schedule a campaign for sending */
+        post: operations["scheduleCampaign"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1395,28 +409,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    campaignId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Pause a campaign */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Pause a running campaign */
+        post: operations["pauseCampaign"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1432,28 +426,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    campaignId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Resume a campaign */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Resume a paused campaign */
+        post: operations["resumeCampaign"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1467,65 +441,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Retrieve all contact books */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of contact books */
+        get: operations["getContactBooks"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        emoji?: string;
-                        properties?: {
-                            [key: string]: string;
-                        };
-                    };
-                };
-            };
-            responses: {
-                /** @description Create a contact book */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            emoji: string;
-                            properties?: unknown;
-                            teamId: string;
-                            createdAt: string;
-                            updatedAt: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Create a new contact book */
+        post: operations["createContactBook"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1539,104 +459,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get contact book details */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            emoji: string;
-                            properties?: unknown;
-                            teamId: string;
-                            createdAt: string;
-                            updatedAt: string;
-                            details: {
-                                totalContacts: number;
-                                unsubscribedContacts: number;
-                                campaigns: unknown[];
-                            };
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Retrieve contact book details by ID */
+        get: operations["getContactBook"];
         put?: never;
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Delete contact book */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            success: boolean;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Delete a contact book by ID */
+        delete: operations["deleteContactBook"];
         options?: never;
         head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        emoji?: string;
-                        properties?: {
-                            [key: string]: string;
-                        };
-                    };
-                };
-            };
-            responses: {
-                /** @description Update contact book */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Update a contact book */
+        patch: operations["updateContactBook"];
         trace?: never;
     };
     "/v1/templates": {
@@ -1646,58 +478,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List templates */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": unknown[];
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of templates */
+        get: operations["getTemplates"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        subject: string;
-                        html?: string;
-                        content?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Create template */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Create a new email template */
+        post: operations["createTemplate"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1711,98 +496,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Get template */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            subject: string;
-                            html?: string | null;
-                            content?: string | null;
-                            teamId: string;
-                            createdAt: string;
-                            updatedAt: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Retrieve template details by ID */
+        get: operations["getTemplate"];
         put?: never;
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Delete template */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            success: boolean;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Delete a template by ID */
+        delete: operations["deleteTemplate"];
         options?: never;
         head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        subject?: string;
-                        html?: string;
-                        content?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Update template */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            success: boolean;
-                        };
-                    };
-                };
-            };
-        };
+        /** @description Update a template */
+        patch: operations["updateTemplate"];
         trace?: never;
     };
     "/v1/suppressions": {
@@ -1812,62 +515,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                    search?: string;
-                    reason?: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE" | null;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List suppressions */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Retrieve a list of suppressed emails */
+        get: operations["getSuppressions"];
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** Format: email */
-                        email: string;
-                        /** @enum {string} */
-                        reason: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE";
-                        source?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Create suppression */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Add an email to the suppression list */
+        post: operations["addSuppression"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1884,37 +536,8 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    email: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Delete suppression */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-                /** @description Suppression not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": Record<string, never>;
-                    };
-                };
-            };
-        };
+        /** @description Remove an email from the suppression list */
+        delete: operations["deleteSuppression"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1931,4 +554,1698 @@ export interface components {
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    getHealth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description API is healthy */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        status: string;
+                        uptime: number;
+                        timestamp: number;
+                    };
+                };
+            };
+        };
+    };
+    getApiKeys: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List API Keys */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        partialToken: string;
+                        lastUsed?: string | null;
+                        createdAt: string;
+                        permission: string;
+                    }[];
+                };
+            };
+        };
+    };
+    createApiKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    name: string;
+                    /**
+                     * @default FULL
+                     * @enum {string}
+                     */
+                    permission?: "FULL" | "SENDING";
+                };
+            };
+        };
+        responses: {
+            /** @description Create API Key */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    deleteApiKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delete API Key */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get Settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getAnalytics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get Analytics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getTimeSeries: {
+        parameters: {
+            query?: {
+                days?: string;
+                domain?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get Email Time Series */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getReputation: {
+        parameters: {
+            query?: {
+                domain?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get Reputation Metrics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getDomains: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve domains accessible by the API key */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /**
+                         * @description The ID of the domain
+                         * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
+                         */
+                        id: string;
+                        /**
+                         * @description The name of the domain
+                         * @example example.com
+                         */
+                        name: string;
+                        /**
+                         * @description The ID of the team
+                         * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
+                         */
+                        teamId: string;
+                        /** @description The status of the domain */
+                        status: string;
+                        /**
+                         * @description The region of the domain
+                         * @default us-east-1
+                         * @example us-east-1
+                         */
+                        region: string;
+                        /**
+                         * @description Whether click tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        clickTracking: boolean;
+                        /**
+                         * @description Whether open tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        openTracking: boolean;
+                        /** @description The public key of the domain */
+                        publicKey: string;
+                        /** @description The DKIM status of the domain */
+                        dkimStatus?: string | null;
+                        /** @description The SPF details of the domain */
+                        spfDetails?: string | null;
+                        /** @description The creation date of the domain */
+                        createdAt: string;
+                        /** @description The last update date of the domain */
+                        updatedAt: string;
+                        /**
+                         * @description Whether DMARC is added
+                         * @default false
+                         */
+                        dmarcAdded: boolean;
+                        /**
+                         * @description Whether the domain is verifying
+                         * @default false
+                         */
+                        isVerifying: boolean;
+                        /** @description The error message of the domain */
+                        errorMessage?: string | null;
+                        /** @description The subdomain of the domain */
+                        subdomain?: string | null;
+                        /** @description The verification error of the domain */
+                        verificationError?: string | null;
+                        /** @description The last checked time of the domain */
+                        lastCheckedTime?: string | null;
+                        /** @description The DNS records of the domain */
+                        dnsRecords: {
+                            /**
+                             * @description DNS record type
+                             * @example TXT
+                             * @enum {string}
+                             */
+                            type: "MX" | "TXT";
+                            /**
+                             * @description DNS record name
+                             * @example mail
+                             */
+                            name: string;
+                            /**
+                             * @description DNS record value
+                             * @example v=spf1 include:amazonses.com ~all
+                             */
+                            value: string;
+                            /**
+                             * @description DNS record TTL
+                             * @example Auto
+                             */
+                            ttl: string;
+                            /**
+                             * @description DNS record priority
+                             * @example 10
+                             */
+                            priority?: string | null;
+                            /** @description The status of the domain */
+                            status: string;
+                            /** @description Whether the record is recommended */
+                            recommended?: boolean;
+                        }[];
+                    }[];
+                };
+            };
+        };
+    };
+    createDomain: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    name: string;
+                    region: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Create a new domain */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /**
+                         * @description The ID of the domain
+                         * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
+                         */
+                        id: string;
+                        /**
+                         * @description The name of the domain
+                         * @example example.com
+                         */
+                        name: string;
+                        /**
+                         * @description The ID of the team
+                         * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
+                         */
+                        teamId: string;
+                        /** @description The status of the domain */
+                        status: string;
+                        /**
+                         * @description The region of the domain
+                         * @default us-east-1
+                         * @example us-east-1
+                         */
+                        region: string;
+                        /**
+                         * @description Whether click tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        clickTracking: boolean;
+                        /**
+                         * @description Whether open tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        openTracking: boolean;
+                        /** @description The public key of the domain */
+                        publicKey: string;
+                        /** @description The DKIM status of the domain */
+                        dkimStatus?: string | null;
+                        /** @description The SPF details of the domain */
+                        spfDetails?: string | null;
+                        /** @description The creation date of the domain */
+                        createdAt: string;
+                        /** @description The last update date of the domain */
+                        updatedAt: string;
+                        /**
+                         * @description Whether DMARC is added
+                         * @default false
+                         */
+                        dmarcAdded: boolean;
+                        /**
+                         * @description Whether the domain is verifying
+                         * @default false
+                         */
+                        isVerifying: boolean;
+                        /** @description The error message of the domain */
+                        errorMessage?: string | null;
+                        /** @description The subdomain of the domain */
+                        subdomain?: string | null;
+                        /** @description The verification error of the domain */
+                        verificationError?: string | null;
+                        /** @description The last checked time of the domain */
+                        lastCheckedTime?: string | null;
+                        /** @description The DNS records of the domain */
+                        dnsRecords: {
+                            /**
+                             * @description DNS record type
+                             * @example TXT
+                             * @enum {string}
+                             */
+                            type: "MX" | "TXT";
+                            /**
+                             * @description DNS record name
+                             * @example mail
+                             */
+                            name: string;
+                            /**
+                             * @description DNS record value
+                             * @example v=spf1 include:amazonses.com ~all
+                             */
+                            value: string;
+                            /**
+                             * @description DNS record TTL
+                             * @example Auto
+                             */
+                            ttl: string;
+                            /**
+                             * @description DNS record priority
+                             * @example 10
+                             */
+                            priority?: string | null;
+                            /** @description The status of the domain */
+                            status: string;
+                            /** @description Whether the record is recommended */
+                            recommended?: boolean;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    verifyDomain: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Verify domain */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Forbidden - API key doesn't have access to this domain */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Domain not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getDomain: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve the domain */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /**
+                         * @description The ID of the domain
+                         * @example 0Lleb1FOUnB60jSueJ/mkPId1vrdB68T8/u9tiInsi4=
+                         */
+                        id: string;
+                        /**
+                         * @description The name of the domain
+                         * @example example.com
+                         */
+                        name: string;
+                        /**
+                         * @description The ID of the team
+                         * @example jonVNF8M+EbJObaRAz2XBHnoJ6Add/tazP9lfOiPJ3E=
+                         */
+                        teamId: string;
+                        /** @description The status of the domain */
+                        status: string;
+                        /**
+                         * @description The region of the domain
+                         * @default us-east-1
+                         * @example us-east-1
+                         */
+                        region: string;
+                        /**
+                         * @description Whether click tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        clickTracking: boolean;
+                        /**
+                         * @description Whether open tracking is enabled
+                         * @default false
+                         * @example false
+                         */
+                        openTracking: boolean;
+                        /** @description The public key of the domain */
+                        publicKey: string;
+                        /** @description The DKIM status of the domain */
+                        dkimStatus?: string | null;
+                        /** @description The SPF details of the domain */
+                        spfDetails?: string | null;
+                        /** @description The creation date of the domain */
+                        createdAt: string;
+                        /** @description The last update date of the domain */
+                        updatedAt: string;
+                        /**
+                         * @description Whether DMARC is added
+                         * @default false
+                         */
+                        dmarcAdded: boolean;
+                        /**
+                         * @description Whether the domain is verifying
+                         * @default false
+                         */
+                        isVerifying: boolean;
+                        /** @description The error message of the domain */
+                        errorMessage?: string | null;
+                        /** @description The subdomain of the domain */
+                        subdomain?: string | null;
+                        /** @description The verification error of the domain */
+                        verificationError?: string | null;
+                        /** @description The last checked time of the domain */
+                        lastCheckedTime?: string | null;
+                        /** @description The DNS records of the domain */
+                        dnsRecords: {
+                            /**
+                             * @description DNS record type
+                             * @example TXT
+                             * @enum {string}
+                             */
+                            type: "MX" | "TXT";
+                            /**
+                             * @description DNS record name
+                             * @example mail
+                             */
+                            name: string;
+                            /**
+                             * @description DNS record value
+                             * @example v=spf1 include:amazonses.com ~all
+                             */
+                            value: string;
+                            /**
+                             * @description DNS record TTL
+                             * @example Auto
+                             */
+                            ttl: string;
+                            /**
+                             * @description DNS record priority
+                             * @example 10
+                             */
+                            priority?: string | null;
+                            /** @description The status of the domain */
+                            status: string;
+                            /** @description Whether the record is recommended */
+                            recommended?: boolean;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    deleteDomain: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Domain deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Forbidden - API key doesn't have access */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Domain not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve the email */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    updateEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": Record<string, never>;
+            };
+        };
+        responses: {
+            /** @description Retrieve the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    listEmails: {
+        parameters: {
+            query?: {
+                page?: string;
+                limit?: string;
+                startDate?: string;
+                endDate?: string;
+                domainId?: string | string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve a list of emails */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    sendEmail: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Pass the optional Idempotency-Key header to make the request safe to retry. The key can be up to 256 characters. The server stores the canonical request body and behaves as follows:
+                 *
+                 *     - Same key + same request body → returns the original emailId with 200 OK without re-sending.
+                 *     - Same key + different request body → returns 409 Conflict with code: NOT_UNIQUE so you can detect the mismatch.
+                 *     - Same key while another request is still being processed → returns 409 Conflict; retry after a short delay or once the first request completes.
+                 *
+                 *     Entries expire after 24 hours. Use a unique key per logical send (for example, an order or signup ID). */
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    to: string | string[];
+                    from: string;
+                    /** @description Optional when templateId is provided */
+                    subject?: string;
+                    /** @description ID of a template from the dashboard */
+                    templateId?: string;
+                    variables?: {
+                        [key: string]: string;
+                    };
+                    replyTo?: string | string[];
+                    cc?: string | string[];
+                    bcc?: string | string[];
+                    text?: string | null;
+                    html?: string | null;
+                    /** @description Custom headers to included with the emails */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                    attachments?: Record<string, never>[];
+                    /** Format: date-time */
+                    scheduledAt?: string;
+                    inReplyToId?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description Retrieve the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getBounces: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List bounced emails */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getComplaints: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List email complaints */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getUnsubscribes: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List unsubscribed emails (contacts) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    sendBatchEmails: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Pass the optional Idempotency-Key header to make the request safe to retry. The key can be up to 256 characters. The server stores the canonical request body and behaves as follows:
+                 *
+                 *     - Same key + same request body → returns the original emailId with 200 OK without re-sending.
+                 *     - Same key + different request body → returns 409 Conflict with code: NOT_UNIQUE so you can detect the mismatch.
+                 *     - Same key while another request is still being processed → returns 409 Conflict; retry after a short delay or once the first request completes.
+                 *
+                 *     Entries expire after 24 hours. Use a unique key per logical send (for example, an order or signup ID). */
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    to: string | string[];
+                    from: string;
+                    /** @description Optional when templateId is provided */
+                    subject?: string;
+                    /** @description ID of a template from the dashboard */
+                    templateId?: string;
+                    variables?: {
+                        [key: string]: string;
+                    };
+                    replyTo?: string | string[];
+                    cc?: string | string[];
+                    bcc?: string | string[];
+                    text?: string | null;
+                    html?: string | null;
+                    /** @description Custom headers to included with the emails */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                    attachments?: Record<string, never>[];
+                    /** Format: date-time */
+                    scheduledAt?: string;
+                    inReplyToId?: string | null;
+                }[];
+            };
+        };
+        responses: {
+            /** @description List of successfully created email IDs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    cancelScheduledEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                emailId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getContacts: {
+        parameters: {
+            query?: {
+                emails?: string;
+                page?: number;
+                limit?: number;
+                ids?: string;
+            };
+            header?: never;
+            path: {
+                contactBookId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve multiple contacts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>[];
+                };
+            };
+        };
+    };
+    createContact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                contactBookId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    email: string;
+                    firstName?: string;
+                    lastName?: string;
+                    properties?: {
+                        [key: string]: string;
+                    };
+                    subscribed?: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Retrieve the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        contactId?: string;
+                    };
+                };
+            };
+        };
+    };
+    getContact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                contactBookId: string;
+                contactId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve the contact */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    upsertContact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                contactBookId: string;
+                contactId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": Record<string, never>;
+            };
+        };
+        responses: {
+            /** @description Contact upserted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    deleteContact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                contactBookId: string;
+                contactId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Contact deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    updateContact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                contactBookId: string;
+                contactId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    firstName?: string;
+                    lastName?: string;
+                    properties?: {
+                        [key: string]: string;
+                    };
+                    subscribed?: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Retrieve the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        contactId?: string;
+                    };
+                };
+            };
+        };
+    };
+    getCampaigns: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List campaigns */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        subject: string;
+                        status?: string | null;
+                        created_at: string;
+                        /** @default 0 */
+                        sent: number;
+                        /** @default 0 */
+                        delivered: number;
+                        /** @default 0 */
+                        opened: number;
+                        /** @default 0 */
+                        clicked: number;
+                    }[];
+                };
+            };
+        };
+    };
+    createCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    name: string;
+                    from: string;
+                    subject: string;
+                    previewText?: string;
+                    contactBookId: string;
+                    content?: string;
+                    html?: string;
+                    replyTo?: string | string[];
+                    cc?: string | string[];
+                    bcc?: string | string[];
+                    sendNow?: boolean;
+                    /** @description Timestamp in ISO 8601 format or natural language (e.g., 'tomorrow 9am', 'next monday 10:30') */
+                    scheduledAt?: string;
+                    batchSize?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Create a campaign. Note: The campaign content MUST include an unsubscribe link placeholder `{{unsent_unsubscribe_url}}`. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        from: string;
+                        subject: string;
+                        previewText: string | null;
+                        contactBookId: string | null;
+                        html: string | null;
+                        content: string | null;
+                        status: string;
+                        /** Format: date-time */
+                        scheduledAt: string | null;
+                        batchSize: number;
+                        batchWindowMinutes: number;
+                        total: number;
+                        sent: number;
+                        delivered: number;
+                        opened: number;
+                        clicked: number;
+                        unsubscribed: number;
+                        bounced: number;
+                        hardBounced: number;
+                        complained: number;
+                        replyTo: string[];
+                        cc: string[];
+                        bcc: string[];
+                        /** Format: date-time */
+                        createdAt: string;
+                        /** Format: date-time */
+                        updatedAt: string;
+                    };
+                };
+            };
+        };
+    };
+    getCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get campaign details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        from: string;
+                        subject: string;
+                        previewText: string | null;
+                        contactBookId: string | null;
+                        html: string | null;
+                        content: string | null;
+                        status: string;
+                        /** Format: date-time */
+                        scheduledAt: string | null;
+                        batchSize: number;
+                        batchWindowMinutes: number;
+                        total: number;
+                        sent: number;
+                        delivered: number;
+                        opened: number;
+                        clicked: number;
+                        unsubscribed: number;
+                        bounced: number;
+                        hardBounced: number;
+                        complained: number;
+                        replyTo: string[];
+                        cc: string[];
+                        bcc: string[];
+                        /** Format: date-time */
+                        createdAt: string;
+                        /** Format: date-time */
+                        updatedAt: string;
+                    };
+                };
+            };
+        };
+    };
+    scheduleCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Timestamp in ISO 8601 format or natural language (e.g., 'tomorrow 9am', 'next monday 10:30') */
+                    scheduledAt?: string;
+                    batchSize?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Schedule a campaign */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    pauseCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Pause a campaign */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    resumeCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resume a campaign */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    getContactBooks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retrieve all contact books */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>[];
+                };
+            };
+        };
+    };
+    createContactBook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    name: string;
+                    emoji?: string;
+                    properties?: {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+        responses: {
+            /** @description Create a contact book */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        emoji: string;
+                        properties?: unknown;
+                        teamId: string;
+                        createdAt: string;
+                        updatedAt: string;
+                    };
+                };
+            };
+        };
+    };
+    getContactBook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get contact book details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        emoji: string;
+                        properties?: unknown;
+                        teamId: string;
+                        createdAt: string;
+                        updatedAt: string;
+                        details: {
+                            totalContacts: number;
+                            unsubscribedContacts: number;
+                            campaigns: unknown[];
+                        };
+                    };
+                };
+            };
+        };
+    };
+    deleteContactBook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delete contact book */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+        };
+    };
+    updateContactBook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    name?: string;
+                    emoji?: string;
+                    properties?: {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+        responses: {
+            /** @description Update contact book */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                    };
+                };
+            };
+        };
+    };
+    getTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List templates */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        subject: string;
+                        html?: string | null;
+                        content?: string | null;
+                        teamId: string;
+                        createdAt: string;
+                        updatedAt: string;
+                    }[];
+                };
+            };
+        };
+    };
+    createTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    name: string;
+                    subject: string;
+                    html?: string;
+                    content?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Create template */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                    };
+                };
+            };
+        };
+    };
+    getTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Get template */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        subject: string;
+                        html?: string | null;
+                        content?: string | null;
+                        teamId: string;
+                        createdAt: string;
+                        updatedAt: string;
+                    };
+                };
+            };
+        };
+    };
+    deleteTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delete template */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+        };
+    };
+    updateTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    name?: string;
+                    subject?: string;
+                    html?: string;
+                    content?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Update template */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+        };
+    };
+    getSuppressions: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                search?: string;
+                reason?: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE" | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List suppressions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    addSuppression: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: email */
+                    email: string;
+                    /** @enum {string} */
+                    reason: "HARD_BOUNCE" | "COMPLAINT" | "MANUAL" | "UNSUBSCRIBE";
+                    source?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Create suppression */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    deleteSuppression: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                email: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delete suppression */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Suppression not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+}

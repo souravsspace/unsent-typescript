@@ -21,6 +21,13 @@ type DeleteWebhookResponse = {
   error: ErrorResponse | null;
 };
 
+/**
+ * Webhooks resource
+ * 
+ * @remarks
+ * This resource is currently in development and not fully implemented on the server side yet.
+ * The methods below are placeholders/preparations for the future implementation.
+ */
 export class Webhooks {
   constructor(private readonly unsent: unsent) {
     this.unsent = unsent;
