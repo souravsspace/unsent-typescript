@@ -1,7 +1,7 @@
 import { render } from "@react-email/render";
 import type * as React from "react";
-import type { ErrorResponse } from "../types";
-import type { paths } from "../types/schema";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 import type { unsent } from "./unsent";
 
 type SendEmailPayload =
@@ -107,6 +107,14 @@ type GetUnsubscribesResponseSuccess =
 type GetUnsubscribesResponse = {
   data: GetUnsubscribesResponseSuccess["data"] | null;
   count: number | null;
+  error: ErrorResponse | null;
+};
+
+type GetEmailEventsResponseSuccess =
+  paths["/v1/emails/{emailId}/events"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetEmailEventsResponse = {
+  data: GetEmailEventsResponseSuccess | null;
   error: ErrorResponse | null;
 };
 
@@ -282,6 +290,22 @@ export class Emails {
       `/emails/${id}/cancel`,
       {}
     );
+    return data;
+  }
+
+  async getEvents(
+    emailId: string,
+    query?: { page?: number; limit?: number }
+  ): Promise<GetEmailEventsResponse> {
+    const params = new URLSearchParams();
+    if (query?.page) params.append("page", query.page.toString());
+    if (query?.limit) params.append("limit", query.limit.toString());
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const data = await this.unsent.get<GetEmailEventsResponseSuccess>(
+      `/emails/${emailId}/events${queryString}`
+    );
+
     return data;
   }
 }

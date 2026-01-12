@@ -177,5 +177,119 @@ describe("Domains", () => {
 
       expect(result).toEqual({ data: null, error: { error: mockError } });
     });
+  });
+
+  describe("getAnalytics", () => {
+    it("should get domain analytics without query parameters", async () => {
+      const mockData = [
+        { date: "2024-01-01", sent: 100, delivered: 95, opened: 50 },
+      ];
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.domains.getAnalytics("123");
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/domains/123/analytics",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should get domain analytics with period parameter", async () => {
+      const mockData = [
+        { date: "2024-01-01", sent: 100, delivered: 95 },
+      ];
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.domains.getAnalytics("123", { period: "week" });
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/domains/123/analytics?period=week",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should handle error when getting domain analytics", async () => {
+      const mockError = { code: "NOT_FOUND", message: "Domain not found" };
+      globalFetch.mockResolvedValueOnce({
+        ok: false,
+        json: () => Promise.resolve({ error: mockError }),
+      });
+
+      const result = await client.domains.getAnalytics("999");
+
+      expect(result).toEqual({ data: null, error: { error: mockError } });
+    });
+  });
+
+  describe("getStats", () => {
+    it("should get domain stats without query parameters", async () => {
+      const mockData = {
+        totalSent: 1000,
+        totalDelivered: 950,
+        deliveryRate: 95,
+      };
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.domains.getStats("123");
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/domains/123/stats",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should get domain stats with date range", async () => {
+      const mockData = {
+        totalSent: 500,
+        totalDelivered: 475,
+      };
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.domains.getStats("123", {
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/domains/123/stats?startDate=2024-01-01&endDate=2024-01-31",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should handle error when getting domain stats", async () => {
+      const mockError = { code: "FORBIDDEN", message: "Access denied" };
+      globalFetch.mockResolvedValueOnce({
+        ok: false,
+        json: () => Promise.resolve({ error: mockError }),
+      });
+
+      const result = await client.domains.getStats("123");
+
+      expect(result).toEqual({ data: null, error: { error: mockError } });
+    });
   })
 });

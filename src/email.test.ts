@@ -285,4 +285,59 @@ describe("Emails", () => {
       }),
     );
   });
+
+  describe("getEvents", () => {
+    it("should get events for an email without query parameters", async () => {
+      const mockData = [
+        { type: "SENT", timestamp: "2024-01-01T00:00:00Z" },
+        { type: "DELIVERED", timestamp: "2024-01-01T00:05:00Z" },
+      ];
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.emails.getEvents("email_123");
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/emails/email_123/events",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should get events for an email with pagination", async () => {
+      const mockData = [
+        { type: "OPENED", timestamp: "2024-01-01T00:10:00Z" },
+      ];
+      globalFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      });
+
+      const result = await client.emails.getEvents("email_123", { page: 2, limit: 10 });
+
+      expect(globalFetch).toHaveBeenCalledWith(
+        "https://api.unsent.dev/v1/emails/email_123/events?page=2&limit=10",
+        expect.objectContaining({
+          method: "GET",
+        }),
+      );
+      expect(result).toEqual({ data: mockData, error: null });
+    });
+
+    it("should handle error when getting email events", async () => {
+      const mockError = { code: "NOT_FOUND", message: "Email not found" };
+      globalFetch.mockResolvedValueOnce({
+        ok: false,
+        json: () => Promise.resolve({ error: mockError }),
+      });
+
+      const result = await client.emails.getEvents("email_999");
+
+      expect(result).toEqual({ data: null, error: { error: mockError } });
+    });
+  });
 });

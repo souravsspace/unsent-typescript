@@ -1,6 +1,6 @@
 import type { unsent } from "./unsent";
-import type { paths } from "../types/schema";
-import type { ErrorResponse } from "../types";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 
 type CreateCampaignPayload =
   NonNullable<paths["/v1/campaigns"]["post"]["requestBody"]>["content"]["application/json"];

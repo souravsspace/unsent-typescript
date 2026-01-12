@@ -1,4 +1,4 @@
-import type { ErrorResponse } from "../types";
+import type { ErrorResponse } from "./types/error";
 import type { unsent } from "./unsent";
 
 export interface Webhook {

@@ -1,7 +1,7 @@
 {
   "name": "@unsent/sdk",
-  "version": "1.0.4",
-  "description": "TypeScript SDK for the Unsent API - Send transactional emails with ease",
+  "version": "1.0.5",
+  "description": "TypeScript SDK for the Unsent API - Send transactional & marketing emails with ease",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
     "build": "rm -rf dist && tsup index.ts --format esm,cjs --dts",
     "test": "vitest",
     "publish-sdk": "pnpm run build && pnpm publish --no-git-checks --access public",
-    "openapi:generate": "openapi-typescript ../../apps/docs/public/api-reference.json -o types/schema.d.ts"
+    "openapi:generate": "openapi-typescript ../../apps/docs/public/api-reference.json -o src/types/schema.d.ts"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,13 @@
     "unsent",
     "email",
     "transactional-email",
+    "marketing-email",
     "api",
     "sdk",
     "typescript",
     "react-email"
   ],
-  "author": "sourav",
+  "author": "Sourav Ukil <sourav@unsent.dev>",
   "license": "MIT",
   "files": [
     "dist"

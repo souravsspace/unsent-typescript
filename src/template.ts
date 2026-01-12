@@ -1,12 +1,12 @@
-import type { ErrorResponse } from "../types";
-import type { paths } from "../types/schema";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 import type { unsent } from "./unsent";
 
 type ListTemplatesResponseSuccess =
   paths["/v1/templates"]["get"]["responses"]["200"]["content"]["application/json"];
 
 type ListTemplatesResponse = {
-  data: ListTemplatesResponseSuccess | null;
+  data: ListTemplatesResponseSuccess["data"] | null;
   error: ErrorResponse | null;
 };
 
@@ -56,7 +56,7 @@ export class Templates {
   async list(): Promise<ListTemplatesResponse> {
     const data = await this.unsent.get<ListTemplatesResponseSuccess>("/templates");
     return {
-      data: data.data,
+      data: data.data?.data ?? null,
       error: data.error,
     };
   }

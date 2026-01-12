@@ -1,5 +1,5 @@
-import type { paths } from "../types/schema";
-import type { ErrorResponse } from "../types";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 import type { unsent } from "./unsent";
 
 type CreateDomainPayload =
@@ -45,6 +45,22 @@ type DeleteDomainResponse = {
 type DeleteDomainResponseSuccess =
   paths["/v1/domains/{id}"]["delete"]["responses"]["200"]["content"]["application/json"];
 
+type GetDomainAnalyticsResponseSuccess =
+  paths["/v1/domains/{id}/analytics"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetDomainAnalyticsResponse = {
+  data: GetDomainAnalyticsResponseSuccess | null;
+  error: ErrorResponse | null;
+};
+
+type GetDomainStatsResponseSuccess =
+  paths["/v1/domains/{id}/stats"]["get"]["responses"]["200"]["content"]["application/json"];
+
+type GetDomainStatsResponse = {
+  data: GetDomainStatsResponseSuccess | null;
+  error: ErrorResponse | null;
+};
+
 export class Domains {
   constructor(private readonly unsent: unsent) {
     this.unsent = unsent;
@@ -82,6 +98,37 @@ export class Domains {
   async delete(id: string): Promise<DeleteDomainResponse> {
     const data = await this.unsent.delete<DeleteDomainResponseSuccess>(
       `/domains/${id}`,
+    );
+
+    return data;
+  }
+
+  async getAnalytics(
+    id: string,
+    query?: { period?: "day" | "week" | "month" }
+  ): Promise<GetDomainAnalyticsResponse> {
+    const params = new URLSearchParams();
+    if (query?.period) params.append("period", query.period);
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const data = await this.unsent.get<GetDomainAnalyticsResponseSuccess>(
+      `/domains/${id}/analytics${queryString}`
+    );
+
+    return data;
+  }
+
+  async getStats(
+    id: string,
+    query?: { startDate?: string; endDate?: string }
+  ): Promise<GetDomainStatsResponse> {
+    const params = new URLSearchParams();
+    if (query?.startDate) params.append("startDate", query.startDate);
+    if (query?.endDate) params.append("endDate", query.endDate);
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+
+    const data = await this.unsent.get<GetDomainStatsResponseSuccess>(
+      `/domains/${id}/stats${queryString}`
     );
 
     return data;

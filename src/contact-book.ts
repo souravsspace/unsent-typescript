@@ -1,5 +1,5 @@
-import type { ErrorResponse } from "../types";
-import type { paths } from "../types/schema";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 import type { unsent } from "./unsent";
 
 type CreateContactBookPayload =

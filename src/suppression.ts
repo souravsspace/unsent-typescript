@@ -1,12 +1,20 @@
-import type { ErrorResponse } from "../types";
-import type { paths } from "../types/schema";
+import type { ErrorResponse } from "./types/error";
+import type { paths } from "./types/schema";
 import type { unsent } from "./unsent";
 
-type ListSuppressionsResponseSuccess =
-  paths["/v1/suppressions"]["get"]["responses"]["200"]["content"]["application/json"];
+type Suppression =
+  paths["/v1/suppressions"]["post"]["responses"]["200"]["content"]["application/json"];
+
+type ListSuppressionsResponseSuccess = {
+  suppressions: Suppression[];
+  total: number;
+};
 
 type ListSuppressionsResponse = {
-  data: ListSuppressionsResponseSuccess | null;
+  data: {
+    data: Suppression[];
+    total: number;
+  } | null;
   error: ErrorResponse | null;
 };
 
@@ -52,7 +60,12 @@ export class Suppressions {
     );
 
     return {
-      data: response.data,
+      data: response.data?.suppressions
+        ? {
+            data: response.data.suppressions,
+            total: response.data.total ?? 0,
+          }
+        : null,
       error: response.error,
     };
   }

@@ -1,4 +1,4 @@
-import type { ErrorResponse } from "../types";
+import type { ErrorResponse } from "./types/error";
 import { Contacts } from "./contact";
 import { Emails } from "./email";
 import { Domains } from "./domain";
@@ -10,6 +10,12 @@ import { Campaigns } from "./campaign";
 import { Suppressions } from "./suppression";
 import { ApiKeys } from "./api-key";
 import { Settings } from "./settings";
+import { Events } from "./event";
+import { Metrics } from "./metrics";
+import { Stats } from "./stats";
+import { Activity } from "./activity";
+import { Teams } from "./team";
+import { System } from "./system";
 
 const defaultBaseUrl = "https://api.unsent.dev";
 const baseUrl = `${process?.env?.UNSENT_BASE_URL ?? process?.env?.UNSENT_BASE_URL ?? defaultBaseUrl}/v1`;
@@ -32,6 +38,12 @@ export class unsent {
   readonly suppressions = new Suppressions(this);
   readonly apiKeys = new ApiKeys(this);
   readonly settings = new Settings(this);
+  readonly events = new Events(this);
+  readonly metrics = new Metrics(this);
+  readonly stats = new Stats(this);
+  readonly activity = new Activity(this);
+  readonly teams = new Teams(this);
+  readonly system = new System(this);
 
   url = baseUrl;
 
